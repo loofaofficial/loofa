@@ -1356,7 +1356,7 @@
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
             <span>🎁 Best Prices Guaranteed</span>
-            <span>🔥 New Arrivals Added every 14 days</span>
+            <span>🔥 New Arrivals Added </span>
             <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
@@ -2800,11 +2800,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
 
         // ── REVIEWS ──
         let selectedStar = 0;
-        let reviews = JSON.parse(localStorage.getItem('lf_reviews')) || [
-            { name:'Arjun K.',   stars:5, text:'Amazing quality! Fast delivery and great prices. Love the Bata sneakers!', date:'15 Mar 2025' },
-            { name:'Priya M.',   stars:5, text:'Best footwear shop in Kerala! My whole family orders from LOOFA now 👟', date:'10 Mar 2025' },
-            { name:'Rahul S.',   stars:4, text:'Great selection and easy WhatsApp ordering. Will definitely buy again!', date:'5 Mar 2025'  },
-        ];
+        let reviews = JSON.parse(localStorage.getItem('lf_reviews')) || [];
 
         function pickStar(val) {
             selectedStar = val;
