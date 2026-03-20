@@ -1350,13 +1350,14 @@
     <!-- TICKER -->
     <div class="overflow-hidden bg-black text-white py-2" style="border-bottom:1px solid rgba(204,0,0,.4);">
         <div class="flex gap-12 animate-marquee whitespace-nowrap font-bold text-sm">
-            <span>🔥 New Arrivals Added even 14 days</span>
+            <span>🔥 New Arrivals Added every 14 days</span>
             <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
             <span>🎁 Best Prices Guaranteed</span>
-            <span>🔥 New Arrivals Added every 14 days </span>
+            <span>🔥 New Arrivals Added every 14 days</span>
+            <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
@@ -1953,12 +1954,14 @@
                             ${p.colors && p.colors.length ? `
                             <div class="color-picker-wrap">
                                 <input type="hidden" id="color-${p.id}">
-                                <button type="button" id="ctrigger-${p.id}" class="color-trigger" onclick="openColorPicker(${p.id})">
-                                    <div class="color-trigger-left">
-                                        <span class="color-trigger-dot" id="cdot-${p.id}" style="background:#e5e7eb;display:none;"></span>
-                                        <span id="ctext-${p.id}">Select Color</span>
+                                <button type="button" id="ctrigger-${p.id}" class="color-trigger"
+                                        style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:6px;"
+                                        onclick="openColorPicker(${p.id})">
+                                    <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;">
+                                        <span id="cdot-${p.id}" style="width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;display:none;background:#e5e7eb;"></span>
+                                        <span id="ctext-${p.id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem;font-weight:700;">Select Color</span>
                                     </div>
-                                    <i class="fas fa-chevron-down"></i>
+                                    <i class="fas fa-chevron-down" style="font-size:.6rem;flex-shrink:0;color:#aaa;"></i>
                                 </button>
                             </div>` : ''}
                             <button class="add-btn w-full py-2 rounded-lg text-xs font-bold flex justify-center items-center gap-1 mt-1"
@@ -2589,7 +2592,8 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             const trigger = document.getElementById('ctrigger-' + id);
             if (trigger) {
                 trigger.classList.add('selected');
-                trigger.querySelector('span').textContent = color;
+                const textEl = document.getElementById('ctext-' + id);
+                if (textEl) textEl.textContent = color;
                 const dot = document.getElementById('cdot-' + id);
                 if (dot) { dot.style.background = hex; dot.style.display = 'inline-block'; }
             }
