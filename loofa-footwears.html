@@ -709,10 +709,10 @@
         .color-trigger.open i { transform:rotate(180deg); }
         .color-trigger-dot {
             width:14px; height:14px; border-radius:50%;
-            border:2px solid rgba(0,0,0,.15); flex-shrink:0; margin-right:6px;
-            display:inline-block;
+            border:1.5px solid rgba(0,0,0,.15); flex-shrink:0;
+            display:inline-block; vertical-align:middle;
         }
-        .color-trigger-left { display:flex; align-items:center; gap:4px; }
+        .color-trigger-left { display:flex; align-items:center; gap:6px; flex:1; min-width:0; overflow:hidden; }
 
         /* Color options in sheet */
         .color-option {
@@ -1350,14 +1350,13 @@
     <!-- TICKER -->
     <div class="overflow-hidden bg-black text-white py-2" style="border-bottom:1px solid rgba(204,0,0,.4);">
         <div class="flex gap-12 animate-marquee whitespace-nowrap font-bold text-sm">
-            <span>🔥 New Arrivals Added by Admin</span>
-            <span>🚚 Fast Delivery Across Kerala</span>
+            <span>🔥 New Arrivals Added even 14 days</span>
+            <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
             <span>🎁 Best Prices Guaranteed</span>
-            <span>🔥 New Arrivals Added by Admin</span>
-            <span>🚚 Fast Delivery Across Kerala</span>
+            <span>🔥 New Arrivals Added every 14 days </span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
@@ -1817,7 +1816,7 @@
         const MASTER_KEY    = "$2a$10$Z5oCgjFWamQH0ZKbEdOd0eAat09HIYFvuZAUV.7Cjadp7za8DUmP6";
         const BIN_ID        = "69bc0f3cc3097a1dd53d42ec";
         const BIN_URL       = "https://api.jsonbin.io/v3/b/" + BIN_ID;
-        const WHATSAPP_NUMBER = "91XXXXXXXXXX"; // ← REPLACE WITH YOUR NUMBER
+        const WHATSAPP_NUMBER = "919633985234"; // ← REPLACE WITH YOUR NUMBER
 
         // ── STATE ──
         let products = [];
