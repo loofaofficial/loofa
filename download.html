@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOOFA FOOTWEARS — Download App</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: Montserrat, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* grid bg */
+        body::before {
+            content:'';
+            position:fixed; inset:0;
+            background-image:
+                linear-gradient(rgba(204,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204,0,0,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events:none; z-index:0;
+        }
+
+        /* glow orbs */
+        .orb {
+            position:fixed; border-radius:50%;
+            filter:blur(120px); pointer-events:none; z-index:0;
+        }
+        .orb1 { width:500px;height:500px;background:rgba(204,0,0,0.1);top:-200px;right:-100px; }
+        .orb2 { width:400px;height:400px;background:rgba(245,197,24,0.05);bottom:0;left:-100px; }
+
+        /* nav */
+        nav {
+            position:sticky; top:0; z-index:100;
+            background:rgba(10,10,10,0.92);
+            backdrop-filter:blur(24px);
+            border-bottom:1px solid rgba(204,0,0,0.2);
+            padding:.9rem 1.5rem;
+            display:flex; align-items:center; justify-content:space-between;
+        }
+        .nav-logo {
+            font-size:1.2rem; font-weight:900; letter-spacing:1px;
+            background:linear-gradient(90deg,#ffd700,#ff4d4d,#ffd700);
+            background-size:200% auto;
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            animation:shimmer 4s linear infinite;
+            display:flex; align-items:center; gap:8px;
+        }
+        .nav-logo i { -webkit-text-fill-color:#cc0000; filter:drop-shadow(0 0 6px rgba(255,215,0,.5)); }
+        @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+        .nav-tag {
+            font-size:.7rem; font-weight:700; letter-spacing:2px;
+            color:#666; text-transform:uppercase;
+            border:1px solid rgba(255,255,255,.07);
+            padding:4px 10px; border-radius:6px;
+        }
+
+        /* hero */
+        .hero {
+            position:relative; z-index:1;
+            text-align:center; padding:5rem 1.5rem 3rem;
+        }
+        .hero-badge {
+            display:inline-flex; align-items:center; gap:6px;
+            background:rgba(204,0,0,0.12);
+            border:1px solid rgba(204,0,0,0.3);
+            color:#cc0000; font-size:.7rem; font-weight:700;
+            letter-spacing:3px; padding:6px 16px; border-radius:999px;
+            margin-bottom:1.5rem; text-transform:uppercase;
+            animation:fadeDown .5s ease both;
+        }
+        .hero-badge .dot {
+            width:6px;height:6px;border-radius:50%;
+            background:#cc0000;box-shadow:0 0 6px #cc0000;
+            animation:pulse 1.5s ease infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.6} }
+        @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        .app-icon {
+            width:100px; height:100px; border-radius:24px;
+            background:linear-gradient(135deg,#cc0000,#ff3333);
+            display:flex; align-items:center; justify-content:center;
+            font-size:3rem; margin:0 auto 1.25rem;
+            box-shadow:0 8px 32px rgba(204,0,0,0.5);
+            animation:fadeUp .6s .1s ease both;
+        }
+        .hero-title {
+            font-size:clamp(2rem,6vw,3.5rem);
+            font-weight:900; letter-spacing:1px; line-height:1;
+            margin-bottom:.75rem;
+            animation:fadeUp .6s .15s ease both;
+        }
+        .hero-title span { color:#cc0000; }
+        .hero-sub {
+            color:#666; font-size:.92rem; font-weight:500;
+            margin-bottom:.75rem; line-height:1.6;
+            animation:fadeUp .6s .2s ease both;
+        }
+        .hero-stats {
+            display:flex; justify-content:center; gap:2rem;
+            margin-bottom:3rem;
+            animation:fadeUp .6s .25s ease both;
+        }
+        .stat { text-align:center; }
+        .stat-val { font-size:1.3rem; font-weight:900; color:#cc0000; }
+        .stat-lbl { font-size:.65rem; color:#555; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+
+        /* download sections */
+        .sections {
+            position:relative; z-index:1;
+            max-width:800px; margin:0 auto;
+            padding:0 1.5rem 5rem;
+            display:flex; flex-direction:column; gap:1.5rem;
+        }
+
+        .dl-card {
+            border-radius:24px; overflow:hidden;
+            animation:fadeUp .6s ease both;
+        }
+        .dl-card:nth-child(1) { animation-delay:.1s; }
+        .dl-card:nth-child(2) { animation-delay:.2s; }
+
+        .dl-header {
+            padding:1.25rem 1.5rem;
+            display:flex; align-items:center; gap:1rem;
+        }
+        .dl-header-icon {
+            width:48px; height:48px; border-radius:14px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.4rem; flex-shrink:0;
+        }
+        .dl-header-title { font-weight:900; font-size:1.1rem; }
+        .dl-header-sub { font-size:.75rem; opacity:.7; margin-top:2px; }
+
+        /* Android */
+        .android-card { background:#111; border:1px solid rgba(61,220,132,.2); }
+        .android-card .dl-header { background:linear-gradient(135deg,rgba(61,220,132,.1),rgba(61,220,132,.05)); border-bottom:1px solid rgba(61,220,132,.15); }
+        .android-card .dl-header-icon { background:rgba(61,220,132,.15); color:#3ddc84; }
+        .android-badge { background:#3ddc84; }
+
+        /* iOS */
+        .ios-card { background:#111; border:1px solid rgba(255,255,255,.08); }
+        .ios-card .dl-header { background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); border-bottom:1px solid rgba(255,255,255,.06); }
+        .ios-card .dl-header-icon { background:rgba(255,255,255,.08); color:#fff; }
+
+        .dl-body { padding:1.25rem 1.5rem; }
+
+        /* Android download btn */
+        .android-btn {
+            display:flex; align-items:center; justify-content:space-between;
+            background:linear-gradient(135deg,#3ddc84,#2bc46e);
+            color:#000; border:none; border-radius:16px;
+            padding:1rem 1.5rem; width:100%; cursor:pointer;
+            text-decoration:none; margin-bottom:1rem;
+            box-shadow:0 4px 20px rgba(61,220,132,.35);
+            transition:transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
+        }
+        .android-btn:hover {
+            transform:scale(1.02) translateY(-2px);
+            box-shadow:0 8px 32px rgba(61,220,132,.5);
+        }
+        .android-btn:active { transform:scale(.97); }
+        .btn-left { display:flex; align-items:center; gap:.75rem; }
+        .btn-icon { font-size:1.6rem; }
+        .btn-title { font-weight:900; font-size:.95rem; letter-spacing:.3px; }
+        .btn-sub { font-size:.72rem; opacity:.7; margin-top:1px; font-weight:600; }
+        .btn-size {
+            background:rgba(0,0,0,.15); padding:4px 10px;
+            border-radius:20px; font-size:.72rem; font-weight:800;
+        }
+
+        /* steps */
+        .steps-title {
+            font-size:.75rem; font-weight:800; color:#555;
+            letter-spacing:1.5px; text-transform:uppercase;
+            margin-bottom:.75rem;
+        }
+        .step {
+            display:flex; align-items:flex-start; gap:.75rem;
+            margin-bottom:.6rem;
+        }
+        .step-num {
+            width:22px; height:22px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:.7rem; font-weight:900; flex-shrink:0; margin-top:1px;
+        }
+        .android-num { background:#3ddc84; color:#000; }
+        .ios-num { background:#cc0000; color:#fff; }
+        .step-text { font-size:.82rem; color:#888; line-height:1.5; }
+        .step-text strong { color:#ccc; }
+
+        /* iOS install btn */
+        .ios-btn {
+            display:flex; align-items:center; justify-content:center; gap:.5rem;
+            background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+            color:#fff; border-radius:14px; padding:.85rem 1.5rem;
+            width:100%; font-weight:800; font-size:.88rem; cursor:pointer;
+            margin-top:1rem; transition:all .2s ease; text-decoration:none;
+        }
+        .ios-btn:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.2); }
+
+        /* warning box */
+        .warning {
+            background:rgba(245,197,24,.06);
+            border:1px solid rgba(245,197,24,.2);
+            border-radius:12px; padding:.85rem 1rem;
+            display:flex; align-items:flex-start; gap:.6rem;
+            margin-top:.75rem;
+        }
+        .warning i { color:#f5c518; font-size:.85rem; margin-top:2px; flex-shrink:0; }
+        .warning-text { font-size:.75rem; color:#888; line-height:1.5; }
+        .warning-text strong { color:#f5c518; }
+
+        /* footer */
+        footer {
+            position:relative; z-index:1;
+            border-top:1px solid rgba(255,255,255,.05);
+            padding:1.5rem; text-align:center;
+            color:#444; font-size:.75rem;
+        }
+        footer span { color:#cc0000; }
+
+        @media (max-width:500px) {
+            .hero-stats { gap:1.25rem; }
+            .dl-header { padding:1rem; }
+            .dl-body { padding:1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-logo">
+            <i class="fas fa-shoe-prints"></i>
+            LOOFA FOOTWEARS
+        </div>
+        <div class="nav-tag">Kerala 🇮🇳</div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="dot"></div>
+            Now Available on Android & iPhone
+        </div>
+        <div class="app-icon">👟</div>
+        <h1 class="hero-title">GET THE <span>LOOFA</span> APP</h1>
+        <p class="hero-sub">Kerala's finest footwear — 200+ styles, live stock, order via WhatsApp</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-val">200+</div>
+                <div class="stat-lbl">Styles</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">FREE</div>
+                <div class="stat-lbl">Always</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">⭐ 5.0</div>
+                <div class="stat-lbl">Rating</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD SECTIONS -->
+    <div class="sections">
+
+        <!-- ANDROID -->
+        <div class="dl-card android-card">
+            <div class="dl-header">
+                <div class="dl-header-icon">
+                    <i class="fab fa-android"></i>
+                </div>
+                <div>
+                    <div class="dl-header-title">Android</div>
+                    <div class="dl-header-sub">Samsung, Redmi, Oppo, Realme & all Android phones</div>
+                </div>
+            </div>
+            <div class="dl-body">
+                <a href="https://loofaofficial.github.io/loofa/LOOFA.apk" download="LOOFA.apk" class="android-btn">
+                    <div class="btn-left">
+                        <div class="btn-icon"><i class="fab fa-android"></i></div>
+                        <div>
+                            <div class="btn-title">Download APK</div>
+                            <div class="btn-sub">Direct install — no Play Store needed</div>
+                        </div>
+                    </div>
+                    <div class="btn-size">APK</div>
+                </a>
+
+                <div class="steps-title">How to install</div>
+                <div class="step">
+                    <div class="step-num android-num">1</div>
+                    <div class="step-text">Tap <strong>Download APK</strong> above — file will download to your phone</div>
+                </div>
+                <div class="step">
+                    <div class="step-num android-num">2</div>
+                    <div class="step-text">Open your <strong>Downloads folder</strong> and tap the LOOFA.apk file</div>
+                </div>
+                <div class="step">
+                    <div class="step-num android-num">3</div>
+                    <div class="step-text">If asked, tap <strong>Settings → Allow from this source</strong> → go back and install</div>
+                </div>
+                <div class="step">
+                    <div class="step-num android-num">4</div>
+                    <div class="step-text">Tap <strong>Install</strong> → LOOFA app appears on your home screen! 🎉</div>
+                </div>
+
+                <div class="warning">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="warning-text">
+                        <strong>Safe to install!</strong> Android may show a warning for APKs outside Play Store — this is normal. LOOFA is 100% safe and verified. ✅
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- iOS -->
+        <div class="dl-card ios-card">
+            <div class="dl-header">
+                <div class="dl-header-icon">
+                    <i class="fab fa-apple"></i>
+                </div>
+                <div>
+                    <div class="dl-header-title">iPhone</div>
+                    <div class="dl-header-sub">All iPhone and iPad models</div>
+                </div>
+            </div>
+            <div class="dl-body">
+                <div class="steps-title">How to install on iPhone</div>
+                <div class="step">
+                    <div class="step-num ios-num">1</div>
+                    <div class="step-text">Open <strong>Safari browser</strong> on your iPhone (must be Safari, not Chrome)</div>
+                </div>
+                <div class="step">
+                    <div class="step-num ios-num">2</div>
+                    <div class="step-text">Go to <strong>loofa.netlify.app/loofa-footwears.html</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-num ios-num">3</div>
+                    <div class="step-text">Tap the <strong>Share button 📤</strong> at the bottom of the screen</div>
+                </div>
+                <div class="step">
+                    <div class="step-num ios-num">4</div>
+                    <div class="step-text">Scroll down and tap <strong>"Add to Home Screen"</strong></div>
+                </div>
+                <div class="step">
+                    <div class="step-num ios-num">5</div>
+                    <div class="step-text">Tap <strong>"Add"</strong> — LOOFA app is now on your home screen! 🎉</div>
+                </div>
+
+                <a href="https://loofaofficial.github.io/loofa/loofa-footwears.html" class="ios-btn">
+                    <i class="fab fa-safari"></i>
+                    Open in Safari to Install
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        Made with <span>❤️</span> in Kerala &nbsp;·&nbsp; © 2025 LOOFA FOOTWEARS &nbsp;·&nbsp;
+        <span>Powered by Ctrik</span>
+    </footer>
+
+    <script>
+        // Auto detect platform and highlight correct section
+        const isIOS     = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+
+        if (isIOS) {
+            document.querySelector('.ios-card').style.border = '1px solid rgba(204,0,0,0.4)';
+            document.querySelector('.ios-card').style.boxShadow = '0 0 30px rgba(204,0,0,0.1)';
+            document.querySelector('.ios-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (isAndroid) {
+            document.querySelector('.android-card').style.border = '1px solid rgba(61,220,132,0.5)';
+            document.querySelector('.android-card').style.boxShadow = '0 0 30px rgba(61,220,132,0.15)';
+        }
+    </script>
+</body>
+</html>
