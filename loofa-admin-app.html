@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Loofa Admin</title>
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#cc0000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Loofa Admin">
+    <link rel="manifest" href="manifest-admin.json">
+    <link rel="apple-touch-icon" href="icon-admin.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5; min-height: 100vh;
+        }
+
+        /* LOGIN */
+        #loginScreen {
+            position:fixed; inset:0; background:#fff;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            padding:2rem; z-index:999;
+        }
+        .login-logo { font-size:3rem; margin-bottom:0.5rem; }
+        .login-title { font-size:1.4rem; font-weight:800; color:#cc0000; margin-bottom:0.25rem; }
+        .login-sub { font-size:0.85rem; color:#999; margin-bottom:2rem; }
+        .login-input {
+            width:100%; max-width:320px; padding:1rem 1.25rem;
+            border:2px solid #eee; border-radius:14px;
+            font-size:1rem; outline:none; margin-bottom:1rem;
+            transition:border-color 0.2s;
+        }
+        .login-input:focus { border-color:#cc0000; }
+        .login-btn {
+            width:100%; max-width:320px; padding:1rem;
+            background:#cc0000; color:#fff; border:none;
+            border-radius:14px; font-size:1rem; font-weight:800; cursor:pointer;
+        }
+        .login-error { color:#cc0000; font-size:0.82rem; font-weight:600; margin-top:0.75rem; display:none; }
+
+        /* MAIN */
+        #mainApp { display:none; padding-bottom:100px; }
+
+        /* TOPBAR */
+        .topbar {
+            background:#cc0000; color:#fff;
+            padding:1rem 1.25rem;
+            display:flex; align-items:center; justify-content:space-between;
+            position:sticky; top:0; z-index:50;
+            box-shadow:0 2px 12px rgba(204,0,0,0.3);
+        }
+        .topbar-title { font-size:1.1rem; font-weight:800; }
+        .topbar-sub { font-size:0.72rem; opacity:0.8; margin-top:1px; }
+        .logout-btn {
+            background:rgba(255,255,255,0.2); border:none; color:#fff;
+            padding:6px 12px; border-radius:8px;
+            font-size:0.78rem; font-weight:700; cursor:pointer;
+        }
+
+        /* STATS */
+        .stats-bar {
+            display:flex; background:#fff; margin:1rem;
+            border-radius:14px; overflow:hidden;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        }
+        .stat-item {
+            flex:1; text-align:center; padding:1rem 0.5rem;
+            border-right:1px solid #f0f0f0;
+        }
+        .stat-item:last-child { border-right:none; }
+        .stat-val { font-size:1.4rem; font-weight:900; color:#cc0000; }
+        .stat-lbl { font-size:0.68rem; color:#aaa; font-weight:600; text-transform:uppercase; }
+
+        /* PRODUCT LIST */
+        .product-list { padding:0 1rem; display:flex; flex-direction:column; gap:0.75rem; }
+        .product-card {
+            background:#fff; border-radius:16px; padding:1rem;
+            display:flex; align-items:center; gap:1rem;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        }
+        .product-card img {
+            width:64px; height:64px; border-radius:12px;
+            object-fit:cover; flex-shrink:0; background:#f0f0f0;
+        }
+        .product-info { flex:1; min-width:0; }
+        .product-name { font-weight:800; font-size:0.95rem; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .product-price { font-weight:700; font-size:0.85rem; color:#cc0000; margin-top:2px; }
+        .product-status { font-size:0.72rem; margin-top:3px; font-weight:600; }
+        .in-stock { color:#16a34a; }
+        .out-stock { color:#cc0000; }
+        .card-actions { display:flex; gap:6px; flex-shrink:0; }
+        .edit-btn, .del-btn {
+            width:36px; height:36px; border-radius:10px;
+            border:none; cursor:pointer; font-size:0.9rem;
+            display:flex; align-items:center; justify-content:center;
+        }
+        .edit-btn { background:#e8f4ff; color:#0080cc; }
+        .del-btn  { background:#ffe8e8; color:#cc0000; }
+
+        .empty-state { text-align:center; padding:4rem 2rem; color:#aaa; }
+        .empty-state .emoji { font-size:3rem; margin-bottom:0.75rem; display:block; }
+
+        /* FAB */
+        .fab {
+            position:fixed; bottom:24px; right:24px;
+            width:60px; height:60px; border-radius:50%;
+            background:#cc0000; color:#fff; border:none;
+            font-size:1.5rem; box-shadow:0 4px 20px rgba(204,0,0,0.4);
+            cursor:pointer; z-index:100;
+            display:flex; align-items:center; justify-content:center;
+            transition:transform 0.2s;
+        }
+        .fab:active { transform:scale(0.92); }
+
+        /* BOTTOM SHEET */
+        .sheet-overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,0.5); z-index:200;
+            align-items:flex-end; justify-content:center;
+        }
+        .sheet-overlay.open { display:flex; animation:fadeIn 0.2s ease; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        .sheet {
+            background:#fff; border-radius:24px 24px 0 0;
+            padding:1.5rem; width:100%; max-width:500px;
+            max-height:92vh; overflow-y:auto;
+            animation:slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+        .sheet-handle {
+            width:40px; height:4px; border-radius:2px;
+            background:#e0e0e0; margin:0 auto 1.25rem;
+        }
+        .sheet-title { font-size:1.2rem; font-weight:800; color:#111; margin-bottom:1.25rem; }
+
+        /* PHOTO PICKER */
+        .photo-picker {
+            width:100%; height:180px;
+            border:2.5px dashed #e0e0e0; border-radius:16px;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            cursor:pointer; margin-bottom:1rem;
+            transition:all 0.2s; overflow:hidden;
+            position:relative; background:#fafafa;
+        }
+        .photo-picker.has-photo { border-style:solid; border-color:#cc0000; }
+        .photo-picker.uploading { border-color:#f5c518; background:#fffdf0; }
+        .photo-picker img {
+            width:100%; height:100%; object-fit:cover;
+            position:absolute; inset:0;
+        }
+        .photo-picker-label {
+            font-size:0.85rem; color:#aaa; font-weight:600;
+            text-align:center; pointer-events:none; z-index:1;
+        }
+        .photo-picker i { font-size:2rem; color:#ddd; margin-bottom:0.5rem; display:block; }
+        .photo-picker input {
+            position:absolute; inset:0; opacity:0;
+            cursor:pointer; width:100%; height:100%;
+        }
+        .upload-progress {
+            position:absolute; bottom:0; left:0; height:4px;
+            background:#cc0000; border-radius:0 0 14px 14px;
+            transition:width 0.3s ease; z-index:2;
+        }
+
+        /* FORM FIELDS */
+        .field-label {
+            font-size:0.75rem; font-weight:800; color:#888;
+            letter-spacing:0.5px; text-transform:uppercase;
+            margin-bottom:0.4rem; display:block;
+        }
+        .field-input, .field-select {
+            width:100%; padding:0.9rem 1rem;
+            border:2px solid #eee; border-radius:12px;
+            font-size:1rem; outline:none; margin-bottom:1rem;
+            color:#111; transition:border-color 0.2s;
+            -webkit-appearance:none; background:#fff;
+        }
+        .field-input:focus, .field-select:focus { border-color:#cc0000; }
+        .field-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+
+        /* SIZES */
+        .sizes-wrap { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1rem; }
+        .size-chip {
+            padding:6px 14px; border-radius:20px;
+            border:2px solid #eee; background:#fff;
+            font-size:0.85rem; font-weight:700; color:#666; cursor:pointer;
+            transition:all 0.15s;
+        }
+        .size-chip.active { background:#cc0000; border-color:#cc0000; color:#fff; }
+
+        /* SAVE BTN */
+        .save-btn {
+            width:100%; padding:1rem; background:#cc0000; color:#fff;
+            border:none; border-radius:14px; font-size:1rem;
+            font-weight:800; cursor:pointer; margin-top:0.5rem;
+            transition:opacity 0.2s;
+        }
+        .save-btn:active { opacity:0.85; }
+        .save-btn:disabled { background:#ccc; cursor:not-allowed; }
+
+        /* LOADING */
+        .loading {
+            display:none; position:fixed; inset:0;
+            background:rgba(255,255,255,0.9); z-index:999;
+            align-items:center; justify-content:center; flex-direction:column; gap:1rem;
+        }
+        .loading.show { display:flex; }
+        .loading-spinner {
+            width:48px; height:48px; border:4px solid #eee;
+            border-top-color:#cc0000; border-radius:50%;
+            animation:spin 0.8s linear infinite;
+        }
+        @keyframes spin { to{ transform:rotate(360deg); } }
+        .loading-text { font-weight:700; color:#666; font-size:0.9rem; }
+
+        /* TOAST */
+        #toast {
+            position:fixed; bottom:90px; left:50%;
+            transform:translateX(-50%) translateY(20px);
+            background:#111; color:#fff;
+            padding:0.75rem 1.5rem; border-radius:50px;
+            font-size:0.85rem; font-weight:700;
+            opacity:0; z-index:9999;
+            transition:all 0.3s ease; white-space:nowrap; pointer-events:none;
+        }
+        #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+    <div class="login-logo">👟</div>
+    <div class="login-title">LOOFA ADMIN</div>
+    <div class="login-sub">Only for authorized use</div>
+    <input type="password" class="login-input" id="passInput"
+           placeholder="Enter password"
+           onkeydown="if(event.key==='Enter') tryLogin()">
+    <button class="login-btn" onclick="tryLogin()">
+        <i class="fas fa-lock" style="margin-right:8px;"></i>Login
+    </button>
+    <div class="login-error" id="loginErr">❌ Wrong password!</div>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">Loading...</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp">
+    <div class="topbar">
+        <div>
+            <div class="topbar-title">👟 Loofa Admin</div>
+            <div class="topbar-sub">Manage your products</div>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt" style="margin-right:4px;"></i>Logout
+        </button>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-val" id="statTotal">0</div>
+            <div class="stat-lbl">Products</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val" id="statIn" style="color:#16a34a;">0</div>
+            <div class="stat-lbl">In Stock</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val" id="statOut">0</div>
+            <div class="stat-lbl">Out of Stock</div>
+        </div>
+    </div>
+
+    <div class="product-list" id="productList"></div>
+    <button class="fab" onclick="openForm()">
+        <i class="fas fa-plus"></i>
+    </button>
+
+
+</div>
+
+<!-- BOTTOM SHEET FORM -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeFormOutside(event)">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title" id="sheetTitle">Add New Product</div>
+        <input type="hidden" id="editId">
+        <input type="hidden" id="photoUrl">
+
+        <!-- Photo Picker -->
+        <div class="photo-picker" id="photoPicker">
+            <input type="file" accept="image/*"
+                   id="photoInput" onchange="handlePhoto(this)">
+            <i class="fas fa-camera"></i>
+            <div class="photo-picker-label">
+                📸 Take Photo or Pick from Gallery
+            </div>
+            <div class="upload-progress" id="uploadProgress" style="width:0%"></div>
+        </div>
+
+        <label class="field-label">Product Name</label>
+        <input type="text" class="field-input" id="fName"
+               placeholder="e.g. Bata Casual Sneaker">
+
+        <div class="field-row">
+            <div>
+                <label class="field-label">Price (₹)</label>
+                <input type="number" class="field-input" id="fPrice" placeholder="999">
+            </div>
+            <div>
+                <label class="field-label">Stock</label>
+                <select class="field-select" id="fStock">
+                    <option value="true">✅ In Stock</option>
+                    <option value="false">❌ Out of Stock</option>
+                </select>
+            </div>
+        </div>
+
+        <label class="field-label">Available Sizes</label>
+        <div class="sizes-wrap" id="sizesWrap"></div>
+
+        <label class="field-label" style="margin-top:.5rem;">Available Colors</label>
+        <div class="sizes-wrap" id="colorsWrap"></div>
+
+        <div class="field-row" style="margin-top:.5rem;">
+            <div>
+                <label class="field-label">Original Price (₹) <span style="color:#aaa;font-size:.65rem;">for discount</span></label>
+                <input type="number" class="field-input" id="fOrigPrice" placeholder="1299 (optional)">
+            </div>
+            <div>
+                <label class="field-label">Discount %</label>
+                <input type="number" class="field-input" id="fDiscount" placeholder="20" min="0" max="90">
+            </div>
+        </div>
+
+        <button class="save-btn" id="saveBtn" onclick="saveProduct()">
+            <i class="fas fa-check" style="margin-right:8px;"></i>Save Product
+        </button>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+    // ── CONFIG ──
+    const PASSWORD    = "ctrik2025";          // ← Change this!
+    const CLOUD_NAME  = "dbhvzbgvl";
+    const UPLOAD_PRESET = "loofa_uploads";
+    const MASTER_KEY  = "$2a$10$Z5oCgjFWamQH0ZKbEdOd0eAat09HIYFvuZAUV.7Cjadp7za8DUmP6";
+    const BIN_ID      = "69bc0f3cc3097a1dd53d42ec";
+    const BIN_URL     = "https://api.jsonbin.io/v3/b/" + BIN_ID;
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+    let products = [];
+    const ALL_SIZES  = ["1","2","3","4","5","6","7","8","9","10","11","12"];
+    const ALL_COLORS = ["Black","White","Red","Brown","Navy","Grey","Tan","Green","Blue","Maroon","Beige","Orange"];
+    const COLOR_HEX  = {Black:"#111111",White:"#e8e8e8",Red:"#cc0000",Brown:"#7b4f2a",Navy:"#1a2b5e",Grey:"#888888",Tan:"#c49a6c",Green:"#2d6a4f",Blue:"#2563eb",Maroon:"#6b0f1a",Beige:"#d4b896",Orange:"#ea580c"};
+    let selectedSizes  = [...ALL_SIZES];
+    let selectedColors = [];
+    let isUploading = false;
+
+    // ── LOGIN ──
+    function tryLogin() {
+        const val = document.getElementById('passInput').value;
+        if (val === PASSWORD) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            sessionStorage.setItem('la', '1');
+            loadProducts();
+        } else {
+            document.getElementById('loginErr').style.display = 'block';
+            document.getElementById('passInput').value = '';
+            setTimeout(() => document.getElementById('loginErr').style.display='none', 2000);
+        }
+    }
+
+    function logout() {
+        sessionStorage.removeItem('la');
+        location.reload();
+    }
+
+    if (sessionStorage.getItem('la') === '1') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        loadProducts();
+    }
+
+    // ── LOAD PRODUCTS ──
+    async function loadProducts() {
+        showLoading('Loading products...');
+        try {
+            const res  = await fetch(BIN_URL + '/latest', {
+                headers: { 'X-Master-Key': MASTER_KEY }
+            });
+            const data = await res.json();
+            products = data.record.loofa_products || [];
+            renderList();
+        } catch(e) {
+            showToast('❌ Cannot connect. Check internet.');
+        }
+        hideLoading();
+    }
+
+    // ── SAVE TO JSONBIN ──
+    async function saveToCloud() {
+        showLoading('Saving...');
+        try {
+            const res   = await fetch(BIN_URL + '/latest', {
+                headers: { 'X-Master-Key': MASTER_KEY }
+            });
+            const data  = await res.json();
+            await fetch(BIN_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+                body: JSON.stringify({ ...data.record, loofa_products: products })
+            });
+            hideLoading();
+            return true;
+        } catch(e) {
+            hideLoading();
+            showToast('❌ Save failed. Check internet.');
+            return false;
+        }
+    }
+
+    // ── UPLOAD PHOTO TO CLOUDINARY ──
+    async function uploadToCloudinary(file) {
+        isUploading = true;
+        const picker   = document.getElementById('photoPicker');
+        const progress = document.getElementById('uploadProgress');
+        picker.classList.add('uploading');
+
+        return new Promise((resolve, reject) => {
+            const xhr  = new XMLHttpRequest();
+            const form = new FormData();
+            form.append('file', file);
+            form.append('upload_preset', UPLOAD_PRESET);
+            form.append('folder', 'loofa_products');
+
+            xhr.upload.addEventListener('progress', e => {
+                if (e.lengthComputable) {
+                    const pct = Math.round((e.loaded / e.total) * 100);
+                    progress.style.width = pct + '%';
+                }
+            });
+
+            xhr.addEventListener('load', () => {
+                picker.classList.remove('uploading');
+                isUploading = false;
+                if (xhr.status === 200) {
+                    const res = JSON.parse(xhr.responseText);
+                    progress.style.width = '100%';
+                    setTimeout(() => progress.style.width = '0%', 800);
+                    resolve(res.secure_url);
+                } else {
+                    reject(new Error('Upload failed'));
+                }
+            });
+
+            xhr.addEventListener('error', () => {
+                picker.classList.remove('uploading');
+                isUploading = false;
+                reject(new Error('Network error'));
+            });
+
+            xhr.open('POST', CLOUDINARY_URL);
+            xhr.send(form);
+        });
+    }
+
+    // ── HANDLE PHOTO SELECTION ──
+    async function handlePhoto(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Show preview immediately
+        const reader = new FileReader();
+        reader.onload = e => {
+            const picker = document.getElementById('photoPicker');
+            picker.classList.add('has-photo');
+            let img = picker.querySelector('img');
+            if (!img) { img = document.createElement('img'); picker.appendChild(img); }
+            img.src = e.target.result;
+            picker.querySelector('.photo-picker-label').style.display = 'none';
+            picker.querySelector('i').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+
+        // Upload to Cloudinary
+        showToast('📤 Uploading photo...');
+        try {
+            const url = await uploadToCloudinary(file);
+            document.getElementById('photoUrl').value = url;
+            showToast('✅ Photo uploaded!');
+        } catch(e) {
+            showToast('❌ Photo upload failed. Try again.');
+            document.getElementById('photoUrl').value = '';
+        }
+    }
+
+    // ── RENDER PRODUCT LIST ──
+    function renderList() {
+        const list    = document.getElementById('productList');
+        const inStock = products.filter(p => p.inStock !== false).length;
+        const outStock= products.filter(p => p.inStock === false).length;
+        document.getElementById('statTotal').textContent = products.length;
+        document.getElementById('statIn').textContent    = inStock;
+        document.getElementById('statOut').textContent   = outStock;
+
+        if (!products.length) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    <span class="emoji">👟</span>
+                    <p style="font-weight:700;font-size:1rem;">No products yet</p>
+                    <p style="font-size:0.82rem;margin-top:0.3rem;color:#bbb;">Tap + to add your first product</p>
+                </div>`;
+            return;
+        }
+
+        list.innerHTML = products.map(p => `
+            <div class="product-card">
+                <img src="${p.image}"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'12\' fill=\'%23f5f5f5\'/%3E%3Ctext x=\'50%25\' y=\'58%25\' font-size=\'28\' text-anchor=\'middle\'%3E👟%3C/text%3E%3C/svg%3E'">
+                <div class="product-info">
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-price" style="display:flex;align-items:center;gap:6px;">
+                        ₹${parseInt(p.price).toLocaleString('en-IN')}
+                        ${p.origPrice ? `<span style="text-decoration:line-through;color:#aaa;font-size:.75rem;font-weight:600;">₹${parseInt(p.origPrice).toLocaleString('en-IN')}</span>` : ''}
+                        ${p.discount  ? `<span style="background:#cc0000;color:#fff;font-size:.65rem;font-weight:900;padding:1px 5px;border-radius:4px;">${p.discount}% OFF</span>` : ''}
+                    </div>
+                    <div class="product-status ${p.inStock !== false ? 'in-stock' : 'out-stock'}">
+                        ${p.inStock !== false ? '✅ In Stock' : '❌ Out of Stock'}
+                        ${p.colors && p.colors.length ? ' · ' + p.colors.map(c => '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+(COLOR_HEX[c]||'#888')+';border:1px solid rgba(0,0,0,.15);margin:0 1px;vertical-align:middle;"></span>').join('') : ''}
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="edit-btn" onclick="editProduct(${p.id})">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="del-btn" onclick="deleteProduct(${p.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ── SIZES ──
+    function renderSizes() {
+        document.getElementById('sizesWrap').innerHTML = ALL_SIZES.map(s => `
+            <div class="size-chip ${selectedSizes.includes(s) ? 'active' : ''}"
+                 onclick="toggleSize('${s}')">${s}</div>
+        `).join('');
+    }
+
+    function toggleSize(s) {
+        selectedSizes = selectedSizes.includes(s)
+            ? selectedSizes.filter(x => x !== s)
+            : [...selectedSizes, s].sort((a,b) => parseInt(a)-parseInt(b));
+        renderSizes();
+    }
+
+    // ── COLORS ──
+    function renderColors() {
+        document.getElementById('colorsWrap').innerHTML = ALL_COLORS.map(c => {
+            const active = selectedColors.includes(c);
+            return `<div class="size-chip ${active ? 'active' : ''}"
+                         style="${active ? 'background:'+COLOR_HEX[c]+';border-color:'+COLOR_HEX[c]+';color:#fff;' : ''}"
+                         onclick="toggleColor('${c}')">
+                        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${COLOR_HEX[c]};border:1px solid rgba(0,0,0,.2);margin-right:5px;vertical-align:middle;flex-shrink:0;"></span>${c}
+                    </div>`;
+        }).join('');
+    }
+
+    function toggleColor(c) {
+        selectedColors = selectedColors.includes(c)
+            ? selectedColors.filter(x => x !== c)
+            : [...selectedColors, c];
+        renderColors();
+    }
+
+    // ── FORM ──
+    function openForm(id) {
+        id = id || null;
+        document.getElementById('editId').value   = id || '';
+        document.getElementById('sheetTitle').textContent = id ? 'Edit Product' : 'Add New Product';
+
+        if (id) {
+            const p = products.find(x => x.id == id);
+            document.getElementById('fName').value  = p.name;
+            document.getElementById('fPrice').value = p.price;
+            document.getElementById('fStock').value    = p.inStock === false ? 'false' : 'true';
+            document.getElementById('photoUrl').value   = p.image || '';
+            document.getElementById('fOrigPrice').value = p.origPrice || '';
+            document.getElementById('fDiscount').value  = p.discount  || '';
+            selectedSizes  = p.sizes  || [...ALL_SIZES];
+            selectedColors = p.colors || [];
+
+            // Show existing photo
+            const picker = document.getElementById('photoPicker');
+            picker.classList.add('has-photo');
+            let img = picker.querySelector('img');
+            if (!img) { img = document.createElement('img'); picker.appendChild(img); }
+            img.src = p.image;
+            picker.querySelector('.photo-picker-label').style.display = 'none';
+            picker.querySelector('i').style.display = 'none';
+        } else {
+            document.getElementById('fName').value   = '';
+            document.getElementById('fPrice').value  = '';
+            document.getElementById('fStock').value  = 'true';
+            document.getElementById('photoUrl').value = '';
+            selectedSizes  = [...ALL_SIZES];
+            selectedColors = [];
+            document.getElementById('fOrigPrice').value = '';
+            document.getElementById('fDiscount').value  = '';
+
+            // Reset photo
+            const picker = document.getElementById('photoPicker');
+            picker.classList.remove('has-photo');
+            const img = picker.querySelector('img');
+            if (img) img.remove();
+            picker.querySelector('.photo-picker-label').style.display = 'block';
+            picker.querySelector('i').style.display = 'block';
+            document.getElementById('photoInput').value = '';
+        }
+
+        renderSizes();
+        renderColors();
+        document.getElementById('sheetOverlay').classList.add('open');
+    }
+
+    function closeForm() {
+        document.getElementById('sheetOverlay').classList.remove('open');
+    }
+
+    function closeFormOutside(e) {
+        if (e.target === document.getElementById('sheetOverlay')) closeForm();
+    }
+
+    function editProduct(id) { openForm(id); }
+
+    // ── SAVE PRODUCT ──
+    async function saveProduct() {
+        const name  = document.getElementById('fName').value.trim();
+        const price = document.getElementById('fPrice').value.trim();
+        const photo = document.getElementById('photoUrl').value;
+
+        if (!name)   { showToast('⚠️ Enter a product name!'); return; }
+        if (!price)  { showToast('⚠️ Enter a price!'); return; }
+        if (!photo)  { showToast('⚠️ Please pick a photo!'); return; }
+        if (isUploading) { showToast('⏳ Wait for photo to finish uploading...'); return; }
+        if (!selectedSizes.length) { showToast('⚠️ Select at least one size!'); return; }
+
+        const btn = document.getElementById('saveBtn');
+        btn.disabled = true;
+
+        const origPrice = document.getElementById('fOrigPrice').value.trim();
+        const discount  = document.getElementById('fDiscount').value.trim();
+        const productData = {
+            name,
+            price:     parseInt(price),
+            image:     photo,
+            sizes:     selectedSizes,
+            colors:    selectedColors,
+            origPrice: origPrice ? parseInt(origPrice) : null,
+            discount:  discount  ? parseInt(discount)  : null,
+            inStock:   document.getElementById('fStock').value === 'true'
+        };
+
+        const editId = document.getElementById('editId').value;
+        if (editId) {
+            const idx = products.findIndex(p => p.id == editId);
+            products[idx] = { ...products[idx], ...productData };
+        } else {
+            productData.id = Date.now();
+            products.push(productData);
+        }
+
+        const ok = await saveToCloud();
+        btn.disabled = false;
+
+        if (ok) {
+            closeForm();
+            renderList();
+            showToast(editId ? '✅ Product updated!' : '✅ Product added! Live now 🎉');
+        }
+    }
+
+    // ── DELETE ──
+    async function deleteProduct(id) {
+        if (!confirm('Delete this product?')) return;
+        products = products.filter(p => p.id !== id);
+        const ok = await saveToCloud();
+        if (ok) {
+            renderList();
+            showToast('🗑️ Product deleted.');
+        }
+    }
+
+    // ── HELPERS ──
+    function showLoading(text) {
+        document.getElementById('loadingText').textContent = text || 'Loading...';
+        document.getElementById('loading').classList.add('show');
+    }
+    function hideLoading() {
+        document.getElementById('loading').classList.remove('show');
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+        clearTimeout(toastTimer);
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+</script>
+    <!-- A2HS BAR for admin -->
+    <div id="adminA2hs" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
+         background:#111;border-top:2px solid #cc0000;padding:.85rem 1.25rem;
+         box-shadow:0 -4px 20px rgba(204,0,0,.3);">
+        <div style="display:flex;align-items:center;gap:.75rem;max-width:500px;margin:0 auto;">
+            <div style="width:40px;height:40px;border-radius:10px;background:#cc0000;
+                        display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">🔑</div>
+            <div style="flex:1;">
+                <div style="color:#fff;font-weight:800;font-size:.82rem;">Install Admin App</div>
+                <div style="color:#888;font-size:.7rem;">Add to home screen for quick access</div>
+            </div>
+            <button id="adminInstallBtn"
+                    style="background:#cc0000;color:#fff;border:none;padding:.5rem 1rem;
+                           border-radius:8px;font-weight:800;font-size:.78rem;cursor:pointer;">
+                Install
+            </button>
+            <button onclick="document.getElementById('adminA2hs').style.display='none'"
+                    style="background:none;border:none;color:#555;font-size:1.1rem;cursor:pointer;">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // ── SERVICE WORKER ──
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('✅ Admin SW registered'))
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
+
+        // ── A2HS ──
+        let adminPrompt = null;
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            adminPrompt = e;
+            setTimeout(() => {
+                document.getElementById('adminA2hs').style.display = 'block';
+            }, 3000);
+        });
+
+        document.getElementById('adminInstallBtn').addEventListener('click', () => {
+            if (adminPrompt) {
+                adminPrompt.prompt();
+                adminPrompt.userChoice.then(c => {
+                    adminPrompt = null;
+                    document.getElementById('adminA2hs').style.display = 'none';
+                });
+            } else {
+                // iOS
+                alert('Tap the Share button then "Add to Home Screen" to install!');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('adminA2hs').style.display = 'none';
+        });
+
+        // iPhone — always show
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
+            setTimeout(() => {
+                document.getElementById('adminA2hs').style.display = 'block';
+                document.getElementById('adminInstallBtn').textContent = 'How?';
+                document.getElementById('adminInstallBtn').onclick = () =>
+                    alert('Tap Share 📤 at the bottom of Safari, then tap "Add to Home Screen"');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
