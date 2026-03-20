@@ -1302,31 +1302,35 @@
     <nav class="glass-nav text-white sticky top-0 z-50 border-b border-red-900">
         <div class="max-w-7xl mx-auto px-4">
             <!-- Top row -->
-            <div style="display:flex;align-items:center;justify-content:space-between;height:56px;">
-                <div style="display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="showSection('home')">
-                    <i class="fas fa-shoe-prints" style="filter:drop-shadow(0 0 6px rgba(255,215,0,.5));font-size:1.1rem;"></i>
-                    <span class="logo-text">LOOFA <span>FOOTWEARS</span></span>
-                </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;height:52px;">
+                <!-- Left: logo + dark + lang -->
                 <div style="display:flex;align-items:center;gap:4px;">
-                    <button onclick="showSection('wishlist')" style="position:relative;background:none;border:none;color:white;padding:6px 7px;cursor:pointer;font-size:1.1rem;">
-                        <i class="fas fa-heart" style="color:#ff6b6b;"></i>
-                        <span id="wishCount" style="position:absolute;top:0;right:0;background:#ff6b6b;color:#fff;min-width:15px;height:15px;border-radius:999px;display:none;align-items:center;justify-content:center;font-size:8px;font-weight:900;padding:0 3px;">0</span>
-                    </button>
-                    <button onclick="showSection('cart')" style="position:relative;background:none;border:none;color:white;padding:6px 7px;cursor:pointer;font-size:1.1rem;">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span id="cartCount" style="position:absolute;top:0;right:0;background:white;color:#cc0000;min-width:15px;height:15px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;padding:0 3px;">0</span>
-                    </button>
-                    <button onclick="showSection('orders')"
-                            style="background:none;border:none;color:#ddd;padding:6px 5px;cursor:pointer;font-size:.7rem;font-weight:800;">ORDERS</button>
-                    <button onclick="showSection('feedback')"
-                            style="background:none;border:none;color:#ddd;padding:6px 5px;cursor:pointer;font-size:.85rem;">⭐</button>
+                    <div style="display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="showSection('home')">
+                        <i class="fas fa-shoe-prints" style="filter:drop-shadow(0 0 6px rgba(255,215,0,.5));font-size:1rem;"></i>
+                        <span class="logo-text" style="font-size:1rem;">LOOFA</span>
+                    </div>
                     <button onclick="toggleDarkMode()"
-                            style="background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;">
+                            style="background:rgba(255,255,255,.1);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-left:4px;">
                         <i class="fas fa-moon" id="themeIcon"></i>
                     </button>
                     <button onclick="openLangSheet()"
-                            style="background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;"
+                            style="background:rgba(255,255,255,.1);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:900;"
                             id="langBtn">EN</button>
+                </div>
+                <!-- Right: nav tabs -->
+                <div style="display:flex;align-items:center;gap:2px;">
+                    <button onclick="showSection('wishlist')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
+                        <i class="fas fa-heart" style="color:#ff6b6b;"></i>
+                        <span id="wishCount" style="position:absolute;top:2px;right:2px;background:#ff6b6b;color:#fff;min-width:14px;height:14px;border-radius:999px;display:none;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
+                    </button>
+                    <button onclick="showSection('cart')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span id="cartCount" style="position:absolute;top:2px;right:2px;background:white;color:#cc0000;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
+                    </button>
+                    <button onclick="showSection('orders')"
+                            style="background:none;border:none;color:#ddd;padding:5px 6px;cursor:pointer;font-size:.65rem;font-weight:800;letter-spacing:.3px;">ORDERS</button>
+                    <button onclick="showSection('feedback')"
+                            style="background:none;border:none;color:#ddd;padding:5px 6px;cursor:pointer;font-size:.8rem;">⭐</button>
                 </div>
             </div>
             <!-- Search row -->
@@ -1370,22 +1374,22 @@
             <div id="hero-banner" class="bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-10 relative" style="box-shadow:0 8px 48px rgba(204,0,0,.25);">
                 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&h=500&q=85"
                      alt="Premium Footwear" class="w-full object-cover opacity-50"
-                     style="height:460px;object-position:center 40%;">
+                     style="height:clamp(220px,55vw,460px);object-position:center 40%;">
                 <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-                <div class="absolute inset-0 flex flex-col items-start justify-center" style="padding:2.5rem 3.5rem 3rem;">
-                    <span class="hero-tag inline-block bg-red-700 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-5 tracking-widest uppercase"
-                          style="box-shadow:0 0 12px rgba(204,0,0,.5);">⚡ Fast Delivery Across Kerala</span>
-                    <h1 class="hero-h1 text-4xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
+                <div class="absolute inset-0 flex flex-col items-start justify-center" style="padding:1.25rem 1.5rem 1.5rem;">
+                    <span class="hero-tag inline-block bg-red-700 text-white font-bold rounded-full mb-3 tracking-widest uppercase"
+                          style="font-size:.6rem;padding:.35rem .85rem;box-shadow:0 0 12px rgba(204,0,0,.5);">⚡ Fast Delivery Across Kerala</span>
+                    <h1 class="hero-h1 font-extrabold text-white mb-2 leading-tight" style="font-size:clamp(1.6rem,6vw,3.5rem);">
                         Elevate Your<br><span class="text-yellow-400" style="text-shadow:0 0 30px rgba(251,191,36,.4);">Everyday Walk.</span>
                     </h1>
-                    <p class="hero-p text-gray-300 text-lg mb-7 max-w-lg font-light">
+                    <p class="hero-p text-gray-300 mb-4 font-light" style="font-size:clamp(.75rem,3vw,1rem);max-width:90%;">
                         Kerala's finest footwear — real photos, live stock, order on WhatsApp.
                     </p>
-                    <div class="hero-cta" style="padding-bottom:.5rem;">
+                    <div class="hero-cta">
                         <button onclick="document.getElementById('productGrid').scrollIntoView({behavior:'smooth'})"
-                                class="bg-yellow-400 text-black px-9 py-3.5 rounded-full font-bold flex items-center gap-2"
-                                style="box-shadow:0 4px 20px rgba(251,191,36,.45);">
-                            Shop Collection <i class="fas fa-arrow-right"></i>
+                                class="bg-yellow-400 text-black rounded-full font-bold flex items-center gap-2"
+                                style="padding:.65rem 1.5rem;font-size:.82rem;box-shadow:0 4px 20px rgba(251,191,36,.45);">
+                            Shop Now <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
