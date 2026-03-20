@@ -1,0 +1,36 @@
+{
+    "id": "loofa-footwears-kerala",
+    "name": "LOOFA FOOTWEARS",
+    "short_name": "LOOFA",
+    "description": "Kerala's Premium Footwear — Order via WhatsApp",
+    "start_url": "/loofa/loofa-footwears.html",
+    "scope": "/loofa/",
+    "display": "standalone",
+    "display_override": ["standalone", "minimal-ui"],
+    "background_color": "#0a0a0a",
+    "theme_color": "#cc0000",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-loofa.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-loofa.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-loofa.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "LOOFA Footwears Home Screen"
+        }
+    ]
+}

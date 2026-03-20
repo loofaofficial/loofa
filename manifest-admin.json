@@ -1,0 +1,35 @@
+{
+    "id": "loofa-admin-kerala",
+    "name": "Loofa Admin",
+    "short_name": "Admin",
+    "description": "Loofa Footwears Admin Panel",
+    "start_url": "/loofa/loofa-admin-app.html",
+    "scope": "/loofa/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#cc0000",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-admin.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-admin.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "https://loofaofficial.github.io/loofa/icon-admin.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Loofa Admin Panel"
+        }
+    ]
+}
