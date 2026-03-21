@@ -352,8 +352,8 @@
     </button>
     <!-- Bulk add FAB -->
     <button class="fab" onclick="openBulk()"
-            style="bottom:24px;background:linear-gradient(135deg,#1a1a1a,#333);box-shadow:0 4px 20px rgba(0,0,0,.4);font-size:.7rem;font-weight:900;letter-spacing:.5px;width:56px;height:56px;">
-        3x
+            style="bottom:24px;background:linear-gradient(135deg,#1a1a1a,#333);box-shadow:0 4px 20px rgba(0,0,0,.4);font-size:.65rem;font-weight:900;letter-spacing:.5px;width:56px;height:56px;">
+        10x
     </button>
 
 
@@ -427,7 +427,7 @@
     <div class="sheet" style="max-height:95vh;">
         <div class="sheet-handle"></div>
         <div style="display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;">
-            <div class="sheet-title" style="margin:0;">Bulk Add (3 Products)</div>
+            <div class="sheet-title" style="margin:0;">Bulk Add (10 Products)</div>
             <button onclick="closeBulk()" style="background:none;border:none;color:#aaa;font-size:1.1rem;cursor:pointer;">✕</button>
         </div>
 
@@ -442,7 +442,7 @@
             font-family:Montserrat,sans-serif;font-weight:900;
             font-size:.95rem;cursor:pointer;
             box-shadow:0 4px 20px rgba(204,0,0,.4);">
-            <i class="fas fa-check" style="margin-right:8px;"></i>Save All 3 Products
+            <i class="fas fa-check" style="margin-right:8px;"></i>Save All Products
         </button>
     </div>
 </div>
@@ -999,11 +999,9 @@
     let bulkData = [{},{},{}]; // 3 product slots
 
     function openBulk() {
-        bulkData = [{url:'',name:'',price:'',stock:'true',origPrice:'',discount:''},
-                    {url:'',name:'',price:'',stock:'true',origPrice:'',discount:''},
-                    {url:'',name:'',price:'',stock:'true',origPrice:'',discount:''}];
-        window.bulkSizes  = [ALL_SIZES.slice(), ALL_SIZES.slice(), ALL_SIZES.slice()];
-        window.bulkColors = [[], [], []];
+        bulkData = Array.from({length:10}, () => ({url:'',name:'',price:'',stock:'true',origPrice:'',discount:''}));
+        window.bulkSizes  = Array.from({length:10}, () => ALL_SIZES.slice());
+        window.bulkColors = Array.from({length:10}, () => []);
         renderBulkSlots();
         document.getElementById('bulkOverlay').classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -1020,7 +1018,7 @@
         if (!window.bulkSizes) window.bulkSizes = [ALL_SIZES.slice(), ALL_SIZES.slice(), ALL_SIZES.slice()];
         if (!window.bulkColors) window.bulkColors = [[], [], []];
 
-        container.innerHTML = [0,1,2].map(i => `
+        container.innerHTML = Array.from({length:10}, (_,i) => `
             <div class="bulk-slot">
                 <div class="bulk-slot-header">Product ${i+1}</div>
                 <div class="bulk-photo-row">
@@ -1076,7 +1074,7 @@
         `).join('');
 
         // Mark all sizes as active initially
-        [0,1,2].forEach(i => {
+        Array.from({length:10}, (_,i) => i).forEach(i => {
             document.querySelectorAll(`.bsize-chip-${i}`).forEach(el => {
                 el.style.background = '#cc0000';
                 el.style.borderColor = '#cc0000';
@@ -1156,17 +1154,20 @@
         try {
             const res  = await fetch(BIN_URL+'/latest', { headers:{'X-Master-Key':MASTER_KEY} });
             const data = await res.json();
-            const newProducts = valid.map((b, i) => ({
-                id:       Date.now() + Math.random() + i,
-                name:     b.name,
-                price:    parseInt(b.price),
-                image:    b.url,
-                sizes:    window.bulkSizes  ? window.bulkSizes[bulkData.indexOf(b)]  : [...ALL_SIZES],
-                colors:   window.bulkColors ? window.bulkColors[bulkData.indexOf(b)] : [],
-                origPrice: b.origPrice ? parseInt(b.origPrice) : null,
-                discount:  b.discount  ? parseInt(b.discount)  : null,
-                inStock:  b.stock === 'true'
-            }));
+            const newProducts = valid.map((b, i) => {
+                const idx = bulkData.indexOf(b);
+                return {
+                    id:       Date.now() + Math.random() + i,
+                    name:     b.name,
+                    price:    parseInt(b.price),
+                    image:    b.url,
+                    sizes:    (window.bulkSizes  && window.bulkSizes[idx])  ? window.bulkSizes[idx]  : [...ALL_SIZES],
+                    colors:   (window.bulkColors && window.bulkColors[idx]) ? window.bulkColors[idx] : [],
+                    origPrice: b.origPrice ? parseInt(b.origPrice) : null,
+                    discount:  b.discount  ? parseInt(b.discount)  : null,
+                    inStock:  b.stock === 'true'
+                };
+            });
             products = [...products, ...newProducts];
             await fetch(BIN_URL, {
                 method:'PUT',

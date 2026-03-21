@@ -6,7 +6,7 @@
     <title>LOOFA FOOTWEARS | Kerala's Premium Collection</title>
 
     <!-- PWA -->
-    <meta name="theme-color" content="#cc0000">
+    <meta name="theme-color" content="#a50000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -43,15 +43,15 @@
 
         /* ── NAV ── */
         .glass-nav {
-            background: rgba(170,0,0,0.97);
+            background: rgba(120,0,0,0.96);
             backdrop-filter: blur(24px);
-            box-shadow: 0 4px 32px rgba(204,0,0,0.4);
+            box-shadow: 0 4px 32px rgba(165,0,0,0.35);
         }
 
         /* ── LOGO SHIMMER ── */
         .logo-text {
             font-weight: 900; font-size: 1.25rem; letter-spacing: 1px;
-            background: linear-gradient(90deg, #ffd700, #ff4d4d, #ffd700);
+            background: linear-gradient(90deg, #ffd700, #e05555, #ffd700);
             background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: logoShimmer 4s linear infinite;
@@ -88,15 +88,15 @@
         }
         .product-card:hover {
             transform: translateY(-8px) scale(1.015);
-            box-shadow: 0 20px 48px rgba(204,0,0,0.15), 0 0 0 1.5px rgba(204,0,0,0.2) !important;
+            box-shadow: 0 20px 48px rgba(165,0,0,0.15), 0 0 0 1.5px rgba(165,0,0,0.18) !important;
         }
         .dark .product-card:hover {
-            box-shadow: 0 20px 48px rgba(204,0,0,0.35), 0 0 0 1.5px rgba(204,0,0,0.4) !important;
+            box-shadow: 0 20px 48px rgba(165,0,0,0.3), 0 0 0 1.5px rgba(165,0,0,0.35) !important;
         }
         /* red glow under card on hover */
         .product-card::after {
             content:''; position:absolute; bottom:0; left:15%; right:15%; height:3px;
-            background:linear-gradient(90deg,transparent,#cc0000,transparent);
+            background:linear-gradient(90deg,transparent,#a50000,transparent);
             border-radius:50%; opacity:0; transition:opacity .3s; filter:blur(4px);
         }
         .product-card:hover::after { opacity:1; }
@@ -124,7 +124,7 @@
         /* NEW badge pulse */
         .new-badge { animation: newPulse 2.5s ease infinite; }
         @keyframes newPulse {
-            0%,100%{ box-shadow:0 0 0 0 rgba(204,0,0,.4); }
+            0%,100%{ box-shadow:0 0 0 0 rgba(74,27,154,.5); }
             50%{ box-shadow:0 0 0 4px rgba(204,0,0,0); }
         }
 
@@ -138,8 +138,8 @@
         @keyframes ripple { to{transform:scale(4);opacity:0} }
 
         /* price glow */
-        .price-glow { text-shadow: 0 0 20px rgba(204,0,0,.3); }
-        .dark .price-glow { text-shadow: 0 0 24px rgba(255,80,80,.4); }
+        .price-glow { text-shadow: 0 0 20px rgba(74,27,154,.4); }
+        .dark .price-glow { text-shadow: 0 0 24px rgba(165,0,0,0.25); }
 
         /* search glow */
         .search-wrap:focus-within {
@@ -175,7 +175,7 @@
         /* order card */
         .order-card { transition: transform .3s ease, box-shadow .3s ease, background-color .45s ease, border-color .45s ease !important; }
         .order-card:hover { transform: translateX(5px) !important; box-shadow: 0 6px 24px rgba(204,0,0,.12) !important; }
-        .dark .order-card:hover { box-shadow: 0 6px 24px rgba(204,0,0,.3) !important; }
+        .dark .order-card:hover { box-shadow: 0 6px 24px rgba(74,27,154,.4) !important; }
 
         /* scroll reveal */
         .reveal { opacity:0; transform:translateY(24px); transition:opacity .55s ease, transform .55s cubic-bezier(.4,0,.2,1) !important; }
@@ -222,15 +222,15 @@
         #a2hsBar {
             display:none; position:fixed; bottom:0; left:0; right:0; z-index:9998;
             background:linear-gradient(135deg,#0d0d0d,#1a0000);
-            border-top:2px solid #cc0000; padding:.85rem 1.25rem;
-            box-shadow:0 -4px 24px rgba(204,0,0,.3);
+            border-top:2px solid #a50000; padding:.85rem 1.25rem;
+            box-shadow:0 -4px 24px rgba(74,27,154,.4);
             animation:slideUpBar .4s cubic-bezier(.34,1.56,.64,1);
         }
         @keyframes slideUpBar { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
         #a2hsBar.show { display:block; }
         .a2hs-inner { max-width:600px; margin:0 auto; display:flex; align-items:center; gap:.75rem; }
         .a2hs-icon {
-            width:42px; height:42px; border-radius:10px; background:#cc0000;
+            width:42px; height:42px; border-radius:10px; background:#a50000;
             display:flex; align-items:center; justify-content:center;
             font-size:1.3rem; flex-shrink:0; box-shadow:0 0 10px rgba(204,0,0,.5);
         }
@@ -238,11 +238,11 @@
         .a2hs-title { color:#fff; font-weight:800; font-size:.82rem; }
         .a2hs-sub   { color:#888; font-size:.7rem; margin-top:1px; }
         .a2hs-install {
-            background:#cc0000; color:#fff; border:none;
+            background:#a50000; color:#fff; border:none;
             padding:.55rem 1.1rem; border-radius:10px;
             font-family:Montserrat,sans-serif; font-weight:800; font-size:.78rem;
             cursor:pointer; white-space:nowrap; flex-shrink:0;
-            box-shadow:0 0 12px rgba(204,0,0,.4);
+            box-shadow:0 0 12px rgba(74,27,154,.5);
         }
         .a2hs-close { background:none; border:none; color:#555; font-size:1.1rem; cursor:pointer; padding:4px; flex-shrink:0; }
 
@@ -281,7 +281,7 @@
 
         /* ── NAV premium glow border ── */
         .glass-nav {
-            box-shadow: 0 4px 32px rgba(204,0,0,0.45),
+            box-shadow: 0 4px 32px rgba(165,0,0,0.35),
                         0 1px 0 rgba(255,255,255,0.04) inset !important;
         }
 
@@ -319,15 +319,15 @@
         .product-card:hover {
             transform: translateY(-10px) scale(1.02) !important;
             box-shadow:
-                0 24px 56px rgba(204,0,0,0.2),
-                0 0 0 1.5px rgba(204,0,0,0.3),
-                0 0 32px rgba(204,0,0,0.08) !important;
+                0 24px 56px rgba(165,0,0,0.18),
+                0 0 0 1.5px rgba(165,0,0,0.25),
+                0 0 32px rgba(165,0,0,0.1) !important;
         }
         .dark .product-card:hover {
             box-shadow:
-                0 24px 56px rgba(204,0,0,0.4),
+                0 24px 56px rgba(165,0,0,0.35),
                 0 0 0 1.5px rgba(204,0,0,0.5),
-                0 0 40px rgba(204,0,0,0.15) !important;
+                0 0 40px rgba(165,0,0,0.15) !important;
         }
 
         /* ── CARD IMAGE — correct default, zoom in on hover ── */
@@ -376,20 +376,20 @@
             content:'';
             position:absolute; bottom:0; left:10%; right:10%;
             height:2px;
-            background: linear-gradient(90deg, transparent, #cc0000, transparent);
+            background: linear-gradient(90deg, transparent, #a50000, transparent);
             border-radius: 50%;
             opacity: 0;
             transition: opacity 0.4s ease;
             filter: blur(3px);
-            box-shadow: 0 0 8px #cc0000;
+            box-shadow: 0 0 8px #a50000;
         }
         .product-card:hover::after { opacity: 1; }
 
         /* ── PRICE premium glow ── */
         .price-glow {
             text-shadow:
-                0 0 20px rgba(204,0,0,0.4),
-                0 0 40px rgba(204,0,0,0.15) !important;
+                0 0 20px rgba(165,0,0,0.35),
+                0 0 40px rgba(165,0,0,0.15) !important;
         }
         .dark .price-glow {
             text-shadow:
@@ -424,16 +424,16 @@
             color: #000 !important;
         }
         .product-card .add-btn:hover:not([disabled]) {
-            background: linear-gradient(135deg, #cc0000, #ff3333) !important;
+            background: linear-gradient(135deg, #a50000, #cc3333) !important;
             color: #fff !important;
-            box-shadow: 0 4px 20px rgba(204,0,0,0.4) !important;
+            box-shadow: 0 4px 20px rgba(165,0,0,0.35) !important;
             transform: scale(1.02) !important;
         }
 
         /* ── SELECT premium ── */
         .product-card select:focus {
             border-color: rgba(204,0,0,0.5) !important;
-            box-shadow: 0 0 0 2px rgba(204,0,0,0.15) !important;
+            box-shadow: 0 0 0 2px rgba(165,0,0,0.15) !important;
         }
 
         /* ── HERO button premium shine ── */
@@ -468,12 +468,12 @@
             transform: translateX(5px) !important;
         }
         .dark .cart-row:hover {
-            background: rgba(204,0,0,0.08) !important;
+            background: rgba(165,0,0,0.1) !important;
         }
 
         /* ── ORDER card premium left border glow ── */
         .order-card .absolute {
-            box-shadow: 2px 0 12px rgba(204,0,0,0.3) !important;
+            box-shadow: 2px 0 12px rgba(165,0,0,0.25) !important;
         }
 
         /* ── TOAST premium ── */
@@ -588,7 +588,7 @@
             box-shadow:
                 0 32px 80px rgba(0,0,0,0.7),
                 0 0 0 1px rgba(255,255,255,0.06),
-                0 0 60px rgba(204,0,0,0.2);
+                0 0 60px rgba(165,0,0,0.18);
         }
         .preview-info {
             margin-top: 1rem;
@@ -601,14 +601,14 @@
         }
         .preview-price {
             font-weight: 900; font-size: 1.25rem;
-            color: #cc0000;
+            color: #a50000;
             text-shadow: 0 0 20px rgba(204,0,0,0.5);
             flex-shrink: 0;
         }
         .preview-close {
             position: absolute; top: -14px; right: -14px;
             width: 36px; height: 36px; border-radius: 50%;
-            background: #cc0000; color: #fff; border: none;
+            background: #a50000; color: #fff; border: none;
             font-size: 1rem; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 16px rgba(204,0,0,0.5);
@@ -617,11 +617,11 @@
         .preview-close:hover { transform: scale(1.15) rotate(90deg); }
         .preview-add-btn {
             width: 100%; margin-top: .85rem; padding: .9rem;
-            background: linear-gradient(135deg, #cc0000, #ff3333);
+            background: linear-gradient(135deg, #a50000, #cc3333);
             color: #fff; border: none; border-radius: 14px;
             font-family: Montserrat, sans-serif;
             font-weight: 800; font-size: .9rem; cursor: pointer;
-            box-shadow: 0 4px 20px rgba(204,0,0,0.45);
+            box-shadow: 0 4px 20px rgba(165,0,0,0.35);
             transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
@@ -637,14 +637,14 @@
             transition: all .25s cubic-bezier(.34,1.56,.64,1);
         }
         .dark .lang-option { border-color: #374151; }
-        .lang-option:hover { border-color: rgba(204,0,0,.3); background: rgba(204,0,0,.04); transform: scale(1.02); }
-        .lang-option.active { border-color: #cc0000; background: rgba(204,0,0,.06); }
+        .lang-option:hover { border-color: rgba(74,27,154,.4); background: rgba(204,0,0,.04); transform: scale(1.02); }
+        .lang-option.active { border-color: #a50000; background: rgba(204,0,0,.06); }
         .lang-flag { font-size: 1.8rem; flex-shrink: 0; }
         .lang-info { flex: 1; }
         .lang-name { font-weight: 800; font-size: .9rem; color: #111; }
         .dark .lang-name { color: #f9fafb; }
         .lang-native { font-size: .78rem; color: #888; margin-top: 2px; }
-        .lang-check { color: #cc0000; display: none; font-size: .9rem; }
+        .lang-check { color: #a50000; display: none; font-size: .9rem; }
         .lang-option.active .lang-check { display: block; }
 
         /* ── FEEDBACK / REVIEWS ── */
@@ -662,7 +662,7 @@
         .star-pick:hover { transform: scale(1.3); }
         .review-avatar {
             width: 38px; height: 38px; border-radius: 50%;
-            background: linear-gradient(135deg,#cc0000,#ff6b6b);
+            background: linear-gradient(135deg,#a50000,#e05555);
             display: flex; align-items: center; justify-content: center;
             font-weight: 900; font-size: .9rem; color: #fff; flex-shrink: 0;
         }
@@ -670,11 +670,11 @@
         /* ── DISCOUNT BADGE + CROSSED PRICE ── */
         .discount-badge {
             display: inline-flex; align-items: center;
-            background: linear-gradient(135deg, #cc0000, #ff3333);
+            background: linear-gradient(135deg, #a50000, #cc3333);
             color: #fff; font-size: .6rem; font-weight: 900;
             padding: 2px 6px; border-radius: 5px;
             letter-spacing: .5px; vertical-align: middle;
-            box-shadow: 0 2px 8px rgba(204,0,0,.4);
+            box-shadow: 0 2px 8px rgba(74,27,154,.5);
             animation: discountPop .5s cubic-bezier(.34,1.56,.64,1) both;
         }
         @keyframes discountPop {
@@ -704,7 +704,7 @@
             transition: border-color .2s ease, box-shadow .2s ease;
         }
         .dark .color-trigger { background:#374151; border-color:#4b5563; color:#d1d5db; }
-        .color-trigger.selected { border-color: #cc0000; box-shadow: 0 0 0 2px rgba(204,0,0,.12); }
+        .color-trigger.selected { border-color: #a50000; box-shadow: 0 0 0 2px rgba(204,0,0,.12); }
         .color-trigger i { font-size:.65rem; transition:transform .3s cubic-bezier(.34,1.56,.64,1); color:#aaa; }
         .color-trigger.open i { transform:rotate(180deg); }
         .color-trigger-dot {
@@ -726,14 +726,14 @@
         }
         .dark .color-option { color: #d1d5db; }
         .color-option:hover { background: rgba(204,0,0,.06); border-color: rgba(204,0,0,.2); }
-        .color-option.active { background: rgba(204,0,0,.08); border-color: #cc0000; color: #cc0000; }
+        .color-option.active { background: rgba(204,0,0,.08); border-color: #a50000; color: #a50000; }
         .color-dot {
             width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
             border: 2px solid rgba(0,0,0,.12);
             box-shadow: 0 2px 6px rgba(0,0,0,.15);
         }
-        .color-option.active .color-dot { box-shadow: 0 0 0 3px rgba(204,0,0,.3), 0 2px 8px rgba(0,0,0,.2); }
-        .color-check { margin-left:auto; color:#cc0000; display:none; }
+        .color-option.active .color-dot { box-shadow: 0 0 0 3px rgba(74,27,154,.4), 0 2px 8px rgba(0,0,0,.2); }
+        .color-check { margin-left:auto; color:#a50000; display:none; }
         .color-option.active .color-check { display:block; }
 
         /* tap the image area as cursor pointer */
@@ -774,8 +774,8 @@
             color: #d1d5db;
         }
         .size-trigger.selected {
-            border-color: #cc0000;
-            color: #cc0000;
+            border-color: #a50000;
+            color: #a50000;
             box-shadow: 0 0 0 2px rgba(204,0,0,.12);
         }
         .size-trigger i {
@@ -866,15 +866,15 @@
         }
         .size-option:hover {
             transform: scale(1.08);
-            border-color: rgba(204,0,0,.4);
-            color: #cc0000;
+            border-color: rgba(74,27,154,.5);
+            color: #a50000;
         }
         .size-option.active {
-            background: #cc0000;
-            border-color: #cc0000;
+            background: #a50000;
+            border-color: #a50000;
             color: #fff;
             transform: scale(1.1);
-            box-shadow: 0 4px 16px rgba(204,0,0,.4);
+            box-shadow: 0 4px 16px rgba(74,27,154,.5);
         }
 
 
@@ -1072,7 +1072,7 @@
         #scrollBar {
             position: fixed; top: 0; left: 0;
             height: 2.5px; z-index: 9999;
-            background: linear-gradient(90deg, #cc0000, #ff6b6b, #ffd700);
+            background: linear-gradient(90deg, #a50000, #e05555, #ffd700);
             width: 0%;
             transition: width .05s linear;
             box-shadow: 0 0 8px rgba(204,0,0,.6);
@@ -1139,7 +1139,7 @@
         /* Filter toggle button */
         .filter-toggle {
             display: flex; align-items: center; gap: 6px;
-            background: #cc0000; color: #fff;
+            background: #a50000; color: #fff;
             border: none; border-radius: 20px;
             padding: .45rem .9rem; font-family: Montserrat, sans-serif;
             font-size: .72rem; font-weight: 800; cursor: pointer;
@@ -1149,7 +1149,7 @@
         }
         .filter-toggle:hover { transform: scale(1.05); }
         .filter-badge {
-            background: #fff; color: #cc0000;
+            background: #fff; color: #a50000;
             width: 16px; height: 16px; border-radius: 50%;
             font-size: .6rem; font-weight: 900;
             display: none; align-items: center; justify-content: center;
@@ -1160,8 +1160,8 @@
         .active-chip {
             display: inline-flex; align-items: center; gap: 5px;
             background: rgba(204,0,0,.1);
-            border: 1px solid rgba(204,0,0,.3);
-            color: #cc0000; border-radius: 20px;
+            border: 1px solid rgba(74,27,154,.4);
+            color: #a50000; border-radius: 20px;
             padding: .4rem .75rem; font-size: .7rem; font-weight: 800;
             white-space: nowrap; cursor: pointer; flex-shrink: 0;
             transition: all .2s ease;
@@ -1172,7 +1172,7 @@
             from { transform: scale(0); opacity: 0; }
             to   { transform: scale(1); opacity: 1; }
         }
-        .active-chip:hover { background: #cc0000; color: #fff; }
+        .active-chip:hover { background: #a50000; color: #fff; }
         .active-chip i { font-size: .6rem; }
 
         /* Clear all */
@@ -1185,7 +1185,7 @@
             transition: all .2s ease;
         }
         .dark .clear-all-btn { border-color: #374151; }
-        .clear-all-btn:hover { border-color: #cc0000; color: #cc0000; }
+        .clear-all-btn:hover { border-color: #a50000; color: #a50000; }
 
         /* Filter sheet */
         .filter-overlay {
@@ -1221,7 +1221,7 @@
         }
         .dark .filter-sheet-title { color: #f9fafb; }
         .filter-clear-btn {
-            background: none; border: none; color: #cc0000;
+            background: none; border: none; color: #a50000;
             font-family: Montserrat, sans-serif;
             font-size: .78rem; font-weight: 800; cursor: pointer;
         }
@@ -1246,9 +1246,9 @@
             display: flex; align-items: center; gap: 5px;
         }
         .dark .f-chip { background: #374151; border-color: #4b5563; color: #d1d5db; }
-        .f-chip:hover { border-color: rgba(204,0,0,.4); color: #cc0000; transform: scale(1.04); }
+        .f-chip:hover { border-color: rgba(74,27,154,.5); color: #a50000; transform: scale(1.04); }
         .f-chip.active {
-            background: #cc0000; border-color: #cc0000; color: #fff;
+            background: #a50000; border-color: #a50000; color: #fff;
             transform: scale(1.04);
             box-shadow: 0 3px 12px rgba(204,0,0,.35);
         }
@@ -1261,11 +1261,11 @@
         .filter-apply {
             margin: .75rem 1.25rem 0;
             width: calc(100% - 2.5rem);
-            padding: .95rem; background: linear-gradient(135deg,#cc0000,#ff3333);
+            padding: .95rem; background: linear-gradient(135deg,#a50000,#cc3333);
             color: #fff; border: none; border-radius: 16px;
             font-family: Montserrat, sans-serif;
             font-weight: 900; font-size: .95rem; cursor: pointer;
-            box-shadow: 0 4px 20px rgba(204,0,0,.4);
+            box-shadow: 0 4px 20px rgba(74,27,154,.5);
             transition: transform .2s cubic-bezier(.34,1.56,.64,1);
         }
         .filter-apply:hover { transform: scale(1.02); }
@@ -1294,6 +1294,59 @@
 
 
 
+
+        /* ══════════════════════════════════
+           5 NEW ANIMATIONS
+        ══════════════════════════════════ */
+
+        
+
+        /* 7 — MAGNETIC CARD 3D TILT */
+        @media (hover: hover) {
+            .product-card {
+                transform-style: preserve-3d;
+                will-change: transform;
+            }
+        }
+
+        /* 10 — MORPHING LOGO on load */
+        .logo-text {
+            animation: logoShimmer 4s linear infinite, logoMorph 1.2s cubic-bezier(.34,1.56,.64,1) both !important;
+        }
+        @keyframes logoMorph {
+            0%   { letter-spacing: -8px; opacity: 0; filter: blur(8px); }
+            60%  { letter-spacing: 3px; opacity: 1; filter: blur(0); }
+            100% { letter-spacing: 1px; opacity: 1; filter: blur(0); }
+        }
+
+        /* 11 — RIPPLE BACKGROUND on hero */
+        #heroRipple {
+            position: absolute; inset: 0; pointer-events: none;
+            overflow: hidden; z-index: 0;
+        }
+        .hero-ripple-circle {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(204,0,0,.15);
+            animation: heroRippleAnim 4s ease-out infinite;
+            transform: translate(-50%,-50%) scale(0);
+        }
+        @keyframes heroRippleAnim {
+            0%   { transform: translate(-50%,-50%) scale(0); opacity: .8; }
+            100% { transform: translate(-50%,-50%) scale(3);  opacity: 0; }
+        }
+
+        /* 12 — STAGGERED GRID REVEAL (card deal) */
+        @keyframes cardDeal {
+            0%   { opacity:0; transform: translateY(32px) rotate(-2deg) scale(.94); }
+            60%  { opacity:1; transform: translateY(-4px) rotate(.5deg) scale(1.01); }
+            100% { opacity:1; transform: translateY(0) rotate(0) scale(1); }
+        }
+        .product-card {
+            animation: cardDeal .55s cubic-bezier(.34,1.56,.64,1) forwards !important;
+        }
+
+        
+
     </style>
 </head>
 <body class="bg-gray-50 text-black dark:bg-gray-900 dark:text-white">
@@ -1320,12 +1373,12 @@
                 <!-- Right: nav tabs -->
                 <div style="display:flex;align-items:center;gap:2px;">
                     <button onclick="showSection('wishlist')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
-                        <i class="fas fa-heart" style="color:#ff6b6b;"></i>
-                        <span id="wishCount" style="position:absolute;top:2px;right:2px;background:#ff6b6b;color:#fff;min-width:14px;height:14px;border-radius:999px;display:none;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
+                        <i class="fas fa-heart" style="color:#e05555;"></i>
+                        <span id="wishCount" style="position:absolute;top:2px;right:2px;background:#e05555;color:#fff;min-width:14px;height:14px;border-radius:999px;display:none;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
                     </button>
                     <button onclick="showSection('cart')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
                         <i class="fas fa-shopping-bag"></i>
-                        <span id="cartCount" style="position:absolute;top:2px;right:2px;background:white;color:#cc0000;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
+                        <span id="cartCount" style="position:absolute;top:2px;right:2px;background:white;color:#a50000;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
                     </button>
                     <button onclick="showSection('orders')"
                             style="background:none;border:none;color:#ddd;padding:5px 6px;cursor:pointer;font-size:.65rem;font-weight:800;letter-spacing:.3px;">ORDERS</button>
@@ -1348,16 +1401,16 @@
     </nav>
 
     <!-- TICKER -->
-    <div class="overflow-hidden bg-black text-white py-2" style="border-bottom:1px solid rgba(204,0,0,.4);">
+    <div class="overflow-hidden bg-black text-white py-2" style="border-bottom:1px solid rgba(74,27,154,.5);">
         <div class="flex gap-12 animate-marquee whitespace-nowrap font-bold text-sm">
-            <span>🔥 New Arrivals Added by Admin</span>
-            <span>🚚 Fast Delivery Across Kerala</span>
+            <span>🔥 New Arrivals Added</span>
+            <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
             <span>🎁 Best Prices Guaranteed</span>
-            <span>🔥 New Arrivals Added by Admin</span>
-            <span>🚚 Fast Delivery Across Kerala</span>
+            <span>🔥 New Arrivals Added </span>
+            <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
             <span>👟 Order via WhatsApp</span>
@@ -1371,14 +1424,13 @@
         <section id="home-section" class="section-enter">
 
 <!-- HERO -->
-            <div id="hero-banner" class="bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-10 relative" style="box-shadow:0 8px 48px rgba(204,0,0,.25);">
+            <div id="hero-banner" class="bg-gray-900 rounded-3xl overflow-hidden shadow-2xl mb-10 relative" style="box-shadow:0 8px 48px rgba(165,0,0,0.2);">
                 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&h=500&q=85"
                      alt="Premium Footwear" class="w-full object-cover opacity-50"
                      style="height:clamp(220px,55vw,460px);object-position:center 40%;">
                 <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+                <div id="heroRipple"></div>
                 <div class="absolute inset-0 flex flex-col items-start justify-center" style="padding:1.25rem 1.5rem 1.5rem;">
-                    <span class="hero-tag inline-block bg-red-700 text-white font-bold rounded-full mb-3 tracking-widest uppercase"
-                          style="font-size:.6rem;padding:.35rem .85rem;box-shadow:0 0 12px rgba(204,0,0,.5);">⚡ Fast Delivery Across Kerala</span>
                     <h1 class="hero-h1 font-extrabold text-white mb-2 leading-tight" style="font-size:clamp(1.6rem,6vw,3.5rem);">
                         Elevate Your<br><span class="text-yellow-400" style="text-shadow:0 0 30px rgba(251,191,36,.4);">Everyday Walk.</span>
                     </h1>
@@ -1387,8 +1439,8 @@
                     </p>
                     <div class="hero-cta">
                         <button onclick="document.getElementById('productGrid').scrollIntoView({behavior:'smooth'})"
-                                class="bg-yellow-400 text-black rounded-full font-bold flex items-center gap-2"
-                                style="padding:.65rem 1.5rem;font-size:.82rem;box-shadow:0 4px 20px rgba(251,191,36,.45);">
+                                class="bg-yellow-400 text-black font-bold flex items-center gap-2"
+                                style="padding:.65rem 1.5rem;font-size:.82rem;border-radius:10px;box-shadow:0 4px 20px rgba(251,191,36,.45);">
                             Shop Now <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -1546,11 +1598,11 @@
         <section id="wishlist-section" class="hidden section-enter max-w-4xl mx-auto">
             <div class="flex items-center justify-between mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
                 <h2 class="text-2xl font-extrabold text-black dark:text-white tracking-tight">
-                    <i class="fas fa-heart mr-2" style="color:#ff6b6b;"></i>My Wishlist
+                    <i class="fas fa-heart mr-2" style="color:#e05555;"></i>My Wishlist
                 </h2>
                 <button onclick="clearWishlist()"
                         style="font-size:.72rem;color:#aaa;font-weight:700;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color .2s ease;"
-                        onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#aaa'">
+                        onmouseover="this.style.color='#a50000'" onmouseout="this.style.color='#aaa'">
                     Clear All
                 </button>
             </div>
@@ -1590,14 +1642,14 @@
 
                 <input type="text" id="reviewName" placeholder="Your name"
                        style="width:100%;padding:.75rem 1rem;border:1.5px solid #e5e7eb;border-radius:12px;font-family:Montserrat,sans-serif;font-size:.85rem;outline:none;margin-bottom:.75rem;background:transparent;color:inherit;"
-                       onfocus="this.style.borderColor='#cc0000'" onblur="this.style.borderColor='#e5e7eb'">
+                       onfocus="this.style.borderColor='#a50000'" onblur="this.style.borderColor='#e5e7eb'">
 
                 <textarea id="reviewText" placeholder="Share your experience with LOOFA..." rows="3"
                           style="width:100%;padding:.75rem 1rem;border:1.5px solid #e5e7eb;border-radius:12px;font-family:Montserrat,sans-serif;font-size:.85rem;outline:none;resize:none;margin-bottom:.75rem;background:transparent;color:inherit;"
-                          onfocus="this.style.borderColor='#cc0000'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
+                          onfocus="this.style.borderColor='#a50000'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
 
                 <button onclick="submitReview()"
-                        style="width:100%;padding:.85rem;background:linear-gradient(135deg,#cc0000,#ff3333);color:#fff;border:none;border-radius:12px;font-family:Montserrat,sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;box-shadow:0 4px 16px rgba(204,0,0,.35);">
+                        style="width:100%;padding:.85rem;background:linear-gradient(135deg,#a50000,#cc3333);color:#fff;border:none;border-radius:12px;font-family:Montserrat,sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;box-shadow:0 4px 16px rgba(204,0,0,.35);">
                     <i class="fas fa-paper-plane" style="margin-right:6px;"></i>Submit Review
                 </button>
             </div>
@@ -1752,7 +1804,7 @@
             animation:slideUp .4s cubic-bezier(.34,1.56,.64,1);">
 
             <!-- Header -->
-            <div style="background:linear-gradient(135deg,#cc0000,#ff3333);padding:1.5rem;display:flex;align-items:center;gap:1rem;">
+            <div style="background:linear-gradient(135deg,#a50000,#cc3333);padding:1.5rem;display:flex;align-items:center;gap:1rem;">
                 <div style="width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;">👟</div>
                 <div>
                     <div style="color:#fff;font-weight:900;font-size:1.1rem;">LOOFA FOOTWEARS</div>
@@ -1774,11 +1826,11 @@
             <div style="padding:0 1.25rem 1.5rem;display:flex;flex-direction:column;gap:.75rem;">
                 <button id="mainInstallBtn" onclick="doInstall()" style="
                     width:100%;padding:1.1rem;
-                    background:linear-gradient(135deg,#cc0000,#ff3333);
+                    background:linear-gradient(135deg,#a50000,#cc3333);
                     color:#fff;border:none;border-radius:16px;
                     font-size:1rem;font-weight:900;cursor:pointer;
                     display:flex;align-items:center;justify-content:center;gap:.5rem;
-                    box-shadow:0 4px 20px rgba(204,0,0,.4);">
+                    box-shadow:0 4px 20px rgba(74,27,154,.5);">
                     <i class="fas fa-download"></i>
                     <span id="installBtnText">Install App — Free</span>
                 </button>
@@ -1796,14 +1848,14 @@
     <div id="installFab" style="
         position:fixed; bottom:1.5rem; right:1.25rem; z-index:9997;
         display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <div style="background:#cc0000;color:#fff;font-size:.62rem;font-weight:900;
+        <div style="background:#a50000;color:#fff;font-size:.62rem;font-weight:900;
                     padding:3px 10px;border-radius:20px;white-space:nowrap;
                     box-shadow:0 2px 10px rgba(204,0,0,.5);letter-spacing:1px;">
             GET APP
         </div>
         <button onclick="showInstallSheet()" style="
             width:58px;height:58px;border-radius:50%;
-            background:linear-gradient(135deg,#cc0000,#ff4444);
+            background:linear-gradient(135deg,#a50000,#ff4444);
             color:#fff;border:none;font-size:1.5rem;cursor:pointer;
             box-shadow:0 4px 20px rgba(204,0,0,.55);
             animation:fabPulse 2s ease infinite;
@@ -1918,9 +1970,9 @@
                      style="animation-delay:${Math.min(idx*45,700)}ms">
                     <div class="card-img-wrap relative overflow-hidden bg-gray-100 dark:bg-gray-700">
                         ${oos
-                            ? `<div class="w-full flex flex-col items-center justify-center" style="height:150px;background:#1a0000;border-bottom:2px dashed #cc0000;">
-                                <i class="fas fa-ban mb-2" style="font-size:2.5rem;color:#cc0000;filter:drop-shadow(0 0 8px rgba(204,0,0,.5));"></i>
-                                <span style="font-size:.8rem;letter-spacing:3px;color:#cc0000;font-weight:900;text-transform:uppercase;">Out of Stock</span>
+                            ? `<div class="w-full flex flex-col items-center justify-center" style="height:150px;background:#1a0000;border-bottom:2px dashed #a50000;">
+                                <i class="fas fa-ban mb-2" style="font-size:2.5rem;color:#a50000;filter:drop-shadow(0 0 8px rgba(204,0,0,.5));"></i>
+                                <span style="font-size:.8rem;letter-spacing:3px;color:#a50000;font-weight:900;text-transform:uppercase;">Out of Stock</span>
                                </div>`
                             : `<img src="${p.image}" class="w-full object-cover" style="height:150px;object-fit:cover;" loading="lazy"
                                     onclick="openPreview(${p.id})"
@@ -1965,7 +2017,7 @@
                                 </button>
                             </div>` : ''}
                             <button class="add-btn w-full py-2 rounded-lg text-xs font-bold flex justify-center items-center gap-1 mt-1"
-                                    style="${oos?'background:#cc0000;color:#fff;opacity:.55;cursor:not-allowed;':'background:#111;color:#fff;'}"
+                                    style="${oos?'background:#a50000;color:#fff;opacity:.55;cursor:not-allowed;':'background:#111;color:#fff;'}"
                                     ${oos?'disabled':''}
                                     onclick="${oos?'':'addToCart('+p.id+', this)'}">
                                 <i class="fas fa-${oos?'ban':'cart-plus'}"></i>
@@ -1996,17 +2048,40 @@
         function addToCart(id, btn) {
             const p   = products.find(x=>x.id==id);
             const sel = document.getElementById('size-'+id);
-            if (!sel || sel.value==='Select Size') {
-                if(sel){ sel.style.borderColor='#cc0000'; sel.style.boxShadow='0 0 0 3px rgba(204,0,0,.25)'; sel.focus(); setTimeout(()=>{sel.style.borderColor='';sel.style.boxShadow=''},1200); }
+
+            // ── Validate size ──
+            if (!sel || !sel.value || sel.value==='Select Size' || sel.value==='') {
+                showToast('⚠️ Please select a size first!');
+                const trigger = document.getElementById('trigger-'+id);
+                if (trigger) {
+                    trigger.style.borderColor='#a50000';
+                    trigger.style.boxShadow='0 0 0 3px rgba(204,0,0,.25)';
+                    setTimeout(()=>{ trigger.style.borderColor=''; trigger.style.boxShadow=''; },1200);
+                }
                 return;
             }
+
+            // ── Validate color (only if product has colors) ──
+            const colorInput = document.getElementById('color-'+id);
+            const selectedColor = colorInput ? colorInput.value : '';
+            if (p.colors && p.colors.length > 0 && !selectedColor) {
+                showToast('⚠️ Please select a color first!');
+                const ctrigger = document.getElementById('ctrigger-'+id);
+                if (ctrigger) {
+                    ctrigger.style.borderColor='#a50000';
+                    ctrigger.style.boxShadow='0 0 0 3px rgba(204,0,0,.25)';
+                    setTimeout(()=>{ ctrigger.style.borderColor=''; ctrigger.style.boxShadow=''; },1200);
+                }
+                return;
+            }
+
             // ripple
             const r = document.createElement('span');
             r.className='ripple';
             r.style.cssText=`width:${btn.offsetWidth*2}px;height:${btn.offsetWidth*2}px;top:${-btn.offsetWidth/2}px;left:0;`;
             btn.appendChild(r); setTimeout(()=>r.remove(),600);
 
-            cart.push({...p, selectedSize:sel.value, cartId:Date.now()+Math.random()});
+            cart.push({...p, selectedSize:sel.value, selectedColor, cartId:Date.now()+Math.random()});
             localStorage.setItem('lf_cart', JSON.stringify(cart));
             updateCartUI();
             showToast(`👟 ${p.name.split(' ').slice(0,2).join(' ')} added!`);
@@ -2036,6 +2111,7 @@
                         <div>
                             <p class="font-extrabold text-black dark:text-white text-base">${item.name}</p>
                             <span class="text-xs text-black dark:text-white font-semibold bg-gray-100 dark:bg-gray-700 inline-block px-2 py-0.5 rounded mt-1">Size: ${item.selectedSize}</span>
+                            ${item.selectedColor ? `<span class="text-xs text-black dark:text-white font-semibold bg-gray-100 dark:bg-gray-700 inline-block px-2 py-0.5 rounded mt-1 ml-1" style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:${COLOR_HEX_MAP[item.selectedColor]||'#888'};border:1px solid rgba(0,0,0,.15);display:inline-block;"></span>${item.selectedColor}</span>` : ''}
                         </div>
                     </div>
                     <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto mt-3 sm:mt-0">
@@ -2067,7 +2143,15 @@
         // ── WHATSAPP ORDER ──
         function orderOnWhatsApp() {
             if (!cart.length) return;
-            const orderId = 'ORD-'+Math.floor(Math.random()*90000+10000);
+            // Unique order ID — timestamp based, never repeats
+            const now      = new Date();
+            const datePart = now.getFullYear().toString().slice(-2)
+                           + String(now.getMonth()+1).padStart(2,'0')
+                           + String(now.getDate()).padStart(2,'0');
+            const timePart = String(now.getHours()).padStart(2,'0')
+                           + String(now.getMinutes()).padStart(2,'0')
+                           + String(now.getSeconds()).padStart(2,'0');
+            const orderId  = 'LF-' + datePart + '-' + timePart;
             const date    = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
             const total   = cart.reduce((s,i)=>s+parseInt(i.price),0);
             let msg = `🛍️ *New Order — LOOFA FOOTWEARS*
@@ -2082,11 +2166,8 @@
 *Items:*
 `;
             cart.forEach((item,i)=>{
-                msg+=`
-${i+1}. 👟 *${item.name}*
-   • Size: ${item.selectedSize}
-   • ₹${parseInt(item.price).toLocaleString('en-IN')}
-`;
+                const colorLine = item.selectedColor ? `\n   • Color: ${item.selectedColor}` : '';
+                msg+=`\n${i+1}. 👟 *${item.name}*\n   • Size: ${item.selectedSize}${colorLine}\n   • ₹${parseInt(item.price).toLocaleString('en-IN')}\n`;
             });
             msg+=`
 ━━━━━━━━━━━━━━━━━━━━
@@ -2115,7 +2196,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             }
             container.innerHTML=orders.map(o=>`
                 <div class="order-card bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1.5 h-full" style="background:linear-gradient(to bottom,#cc0000,#ff6666);"></div>
+                    <div class="absolute top-0 left-0 w-1.5 h-full" style="background:linear-gradient(to bottom,#a50000,#ff6666);"></div>
                     <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 ml-3">
                         <div>
                             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Receipt #${o.id}</p>
@@ -2223,15 +2304,15 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                 stepsDiv.innerHTML = `
                     <div style="font-weight:800;font-size:.82rem;color:#111;margin-bottom:.75rem;">🍎 Install on iPhone — 3 steps:</div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">1</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">1</div>
                         <div style="font-size:.85rem;color:#333;">Tap the <strong>Share button</strong> 📤 at the bottom of Safari</div>
                     </div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">2</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">2</div>
                         <div style="font-size:.85rem;color:#333;">Scroll and tap <strong>"Add to Home Screen"</strong></div>
                     </div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">3</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">3</div>
                         <div style="font-size:.85rem;color:#333;">Tap <strong>"Add"</strong> — App installed! 🎉</div>
                     </div>`;
                 document.getElementById('installBtnText').textContent = 'Got it! Open Safari Share Menu';
@@ -2241,15 +2322,15 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                 stepsDiv.innerHTML = `
                     <div style="font-weight:800;font-size:.82rem;color:#111;margin-bottom:.75rem;">📱 Install on Android — 3 steps:</div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">1</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">1</div>
                         <div style="font-size:.85rem;color:#333;">Tap the <strong>3 dots ⋮</strong> menu in Chrome (top right)</div>
                     </div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">2</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">2</div>
                         <div style="font-size:.85rem;color:#333;">Tap <strong>"Add to Home Screen"</strong></div>
                     </div>
                     <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem;">
-                        <div style="background:#cc0000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">3</div>
+                        <div style="background:#a50000;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px;">3</div>
                         <div style="font-size:.85rem;color:#333;">Tap <strong>"Install"</strong> — App on home screen! 🎉</div>
                     </div>`;
             }
@@ -2312,7 +2393,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                              onerror="this.style.display='none';">
                         <button onclick="toggleWishlist(${p.id}, this)"
                                 class="wish-btn absolute top-2 right-2 text-lg bg-black/50 p-1.5 rounded-full"
-                                style="color:#ff6b6b;">
+                                style="color:#e05555;">
                             <i class="fas fa-heart text-red-400"></i>
                         </button>
                     </div>
@@ -2335,8 +2416,21 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                                     <i class="fas fa-chevron-down"></i>
                                 </button>
                             </div>
+                            ${p.colors && p.colors.length ? `
+                            <div class="color-picker-wrap" style="margin-top:.4rem;">
+                                <input type="hidden" id="color-w-${p.id}">
+                                <button type="button" id="ctrigger-w-${p.id}" class="color-trigger"
+                                        style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:6px;"
+                                        onclick="openColorPickerW(${p.id})">
+                                    <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;">
+                                        <span id="cdot-w-${p.id}" style="width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;display:none;background:#e5e7eb;"></span>
+                                        <span id="ctext-w-${p.id}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem;font-weight:700;">Select Color</span>
+                                    </div>
+                                    <i class="fas fa-chevron-down" style="font-size:.6rem;flex-shrink:0;color:#aaa;"></i>
+                                </button>
+                            </div>` : ''}
                             <button class="add-btn w-full py-2 rounded-lg text-xs font-bold flex justify-center items-center gap-1 mt-1"
-                                    style="${p.inStock===false?'background:#cc0000;color:#fff;opacity:.6;cursor:not-allowed;':'background:#000;color:#fff;'}"
+                                    style="${p.inStock===false?'background:#a50000;color:#fff;opacity:.6;cursor:not-allowed;':'background:#000;color:#fff;'}"
                                     ${p.inStock===false?'disabled':''}
                                     onclick="${p.inStock===false?'':'addToCartFromWish('+p.id+')'}">
                                 <i class="fas fa-${p.inStock===false?'ban':'cart-plus'}"></i>
@@ -2371,14 +2465,69 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         function addToCartFromWish(id) {
             const p   = products.find(x => x.id == id);
             const sel = document.getElementById('size-w-' + id);
-            if (!sel || sel.value === 'Select Size') {
+
+            // Validate size
+            if (!sel || !sel.value || sel.value === 'Select Size') {
+                showToast('⚠️ Please select a size first!');
                 openSizePickerW(id);
                 return;
             }
-            cart.push({...p, selectedSize: sel.value, cartId: Date.now() + Math.random()});
+
+            // Validate color if product has colors
+            const colorInput   = document.getElementById('color-w-' + id);
+            const selectedColor = colorInput ? colorInput.value : '';
+            if (p.colors && p.colors.length > 0 && !selectedColor) {
+                showToast('⚠️ Please select a color first!');
+                const ctrigger = document.getElementById('ctrigger-w-' + id);
+                if (ctrigger) {
+                    ctrigger.style.borderColor = '#a50000';
+                    ctrigger.style.boxShadow   = '0 0 0 3px rgba(204,0,0,.25)';
+                    setTimeout(() => { ctrigger.style.borderColor=''; ctrigger.style.boxShadow=''; }, 1200);
+                }
+                return;
+            }
+
+            cart.push({...p, selectedSize: sel.value, selectedColor, cartId: Date.now() + Math.random()});
             localStorage.setItem('lf_cart', JSON.stringify(cart));
             updateCartUI();
             showToast(`👟 ${p.name.split(' ').slice(0,2).join(' ')} added!`);
+        }
+
+        function openColorPickerW(id) {
+            const p = products.find(x => x.id == id);
+            if (!p || !p.colors) return;
+            activeColorProductId = 'w-' + id;
+            document.getElementById('colorSheetProductName').textContent = p.name;
+            const currentVal = document.getElementById('color-w-' + id)?.value;
+            const container  = document.getElementById('colorOptionsContainer');
+            container.innerHTML = p.colors.map(c => {
+                const hex = COLOR_HEX_MAP[c] || '#888';
+                return `<div class="color-option ${c === currentVal ? 'active' : ''}"
+                             onclick="selectColorW('${c}', '${hex}', ${id}, this)">
+                            <div class="color-dot" style="background:${hex};"></div>
+                            <span>${c}</span>
+                            <i class="fas fa-check color-check"></i>
+                        </div>`;
+            }).join('');
+            document.getElementById('colorSheetOverlay').classList.add('open');
+            document.getElementById('colorSheet').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectColorW(color, hex, id, el) {
+            const input = document.getElementById('color-w-' + id);
+            if (input) input.value = color;
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            const trigger = document.getElementById('ctrigger-w-' + id);
+            if (trigger) {
+                trigger.classList.add('selected');
+                const textEl = document.getElementById('ctext-w-' + id);
+                if (textEl) textEl.textContent = color;
+                const dot = document.getElementById('cdot-w-' + id);
+                if (dot) { dot.style.background = hex; dot.style.display = 'inline-block'; }
+            }
+            setTimeout(() => closeColorSheet(), 300);
         }
 
         function clearWishlist() {
@@ -2406,7 +2555,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             const priceEl = document.getElementById('previewPrice');
             priceEl.innerHTML = '₹' + parseInt(p.price).toLocaleString('en-IN') +
                 (p.origPrice ? ` <span style="text-decoration:line-through;color:#666;font-size:.85rem;font-weight:600;">₹${parseInt(p.origPrice).toLocaleString('en-IN')}</span>` : '') +
-                (p.discount  ? ` <span style="background:#cc0000;color:#fff;font-size:.65rem;font-weight:900;padding:2px 6px;border-radius:5px;vertical-align:middle;">${p.discount}% OFF</span>` : '');
+                (p.discount  ? ` <span style="background:#a50000;color:#fff;font-size:.65rem;font-weight:900;padding:2px 6px;border-radius:5px;vertical-align:middle;">${p.discount}% OFF</span>` : '');
             document.getElementById('previewAddBtn').onclick = () => {
                 closePreview();
                 // scroll to card and focus size select
@@ -2525,7 +2674,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             if (!el) return;
             const count = parseInt(el.textContent);
             el.style.boxShadow = count > 0
-                ? '0 0 10px rgba(204,0,0,0.7), 0 0 20px rgba(204,0,0,0.3)'
+                ? '0 0 10px rgba(204,0,0,0.7), 0 0 20px rgba(165,0,0,0.25)'
                 : '';
         }
 
@@ -2536,7 +2685,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         const COLOR_PALETTE = {
             'Black':    '#111111',
             'White':    '#f5f5f5',
-            'Red':      '#cc0000',
+            'Red':      '#a50000',
             'Brown':    '#7b4f2a',
             'Navy':     '#1a2b5e',
             'Grey':     '#888888',
@@ -2607,7 +2756,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         const COLOR_HEX_MAP = {
             "Black":"#111111",
             "White":"#f0f0f0",
-            "Red":"#cc0000",
+            "Red":"#a50000",
             "Brown":"#7b4f2a",
             "Navy":"#1a2b5e",
             "Grey":"#888888",
@@ -2617,7 +2766,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             "Maroon":"#6b0f1a",
             "Beige":"#d4b896",
             "Orange":"#ea580c",
-            "Purple":"#7c3aed",
+            "Purple":"#cc3333",
             "Pink":"#ec4899",
             "Yellow":"#eab308",
             "Cyan":"#06b6d4",
@@ -3122,7 +3271,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
 
             // Wishlist title
             const wishTitle = document.querySelector('#wishlist-section h2');
-            if (wishTitle) wishTitle.innerHTML = `<i class="fas fa-heart mr-2" style="color:#ff6b6b;"></i>${L.wishlistTitle}`;
+            if (wishTitle) wishTitle.innerHTML = `<i class="fas fa-heart mr-2" style="color:#e05555;"></i>${L.wishlistTitle}`;
 
             // Feedback title
             const fbTitle = document.querySelector('#feedback-section h2');
@@ -3138,11 +3287,49 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             if (products.length) renderProducts(products);
         }
 
+                // ── HERO RIPPLE ──
+        function spawnHeroRipples() {
+            const wrap = document.getElementById('heroRipple');
+            if (!wrap) return;
+            const positions = [{x:30,y:60},{x:70,y:40},{x:50,y:70},{x:20,y:30},{x:80,y:65}];
+            positions.forEach((pos, i) => {
+                const el = document.createElement('div');
+                el.className = 'hero-ripple-circle';
+                const size = 200 + i * 80;
+                el.style.cssText = `width:${size}px;height:${size}px;left:${pos.x}%;top:${pos.y}%;animation-delay:${i*0.8}s;animation-duration:${3+i*0.5}s;`;
+                wrap.appendChild(el);
+            });
+        }
+
+        // ── MAGNETIC 3D TILT ──
+        function initMagneticCards() {
+            document.addEventListener('mousemove', e => {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const cx = rect.left + rect.width/2;
+                    const cy = rect.top  + rect.height/2;
+                    const dx = (e.clientX - cx) / (rect.width/2);
+                    const dy = (e.clientY - cy) / (rect.height/2);
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 1.5) {
+                        card.style.transform = `perspective(800px) rotateY(${dx*6}deg) rotateX(${-dy*6}deg) translateY(-8px) scale(1.02)`;
+                    } else {
+                        card.style.transform = '';
+                    }
+                });
+            });
+            document.addEventListener('mouseleave', () => {
+                document.querySelectorAll('.product-card').forEach(c => c.style.transform = '');
+            });
+        }
+
         // ── BOOT ──
         window.addEventListener('DOMContentLoaded',async()=>{
             applyTheme();
             spawnParticles();
+            spawnHeroRipples();
             observeReveal();
+            initMagneticCards();
             await loadProducts();
             updateWishCount();
             applyLang();
