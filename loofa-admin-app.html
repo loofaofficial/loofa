@@ -368,8 +368,22 @@
 
     let products = [];
     const ALL_SIZES  = ["1","2","3","4","5","6","7","8","9","10","11","12"];
-    const ALL_COLORS = ["Black","White","Red","Brown","Navy","Grey","Tan","Green","Blue","Maroon","Beige","Orange"];
-    const COLOR_HEX  = {Black:"#111111",White:"#e8e8e8",Red:"#cc0000",Brown:"#7b4f2a",Navy:"#1a2b5e",Grey:"#888888",Tan:"#c49a6c",Green:"#2d6a4f",Blue:"#2563eb",Maroon:"#6b0f1a",Beige:"#d4b896",Orange:"#ea580c"};
+    const ALL_COLORS = [
+        "Black","White","Red","Brown","Navy","Grey","Tan","Green","Blue","Maroon","Beige","Orange",
+        "Purple","Pink","Yellow","Cyan","Teal","Lime","Indigo","Violet","Rose","Coral","Gold","Silver",
+        "Cream","Khaki","Olive","Rust","Mint","Lavender","Chocolate","Peach","Sky","Wine","Forest","Sand"
+    ];
+    const COLOR_HEX = {
+        Black:"#111111", White:"#f0f0f0", Red:"#cc0000", Brown:"#7b4f2a",
+        Navy:"#1a2b5e", Grey:"#888888", Tan:"#c49a6c", Green:"#2d6a4f",
+        Blue:"#2563eb", Maroon:"#6b0f1a", Beige:"#d4b896", Orange:"#ea580c",
+        Purple:"#7c3aed", Pink:"#ec4899", Yellow:"#eab308", Cyan:"#06b6d4",
+        Teal:"#0d9488", Lime:"#65a30d", Indigo:"#4338ca", Violet:"#8b5cf6",
+        Rose:"#f43f5e", Coral:"#f97316", Gold:"#d97706", Silver:"#94a3b8",
+        Cream:"#fef3c7", Khaki:"#a16207", Olive:"#4d7c0f", Rust:"#c2410c",
+        Mint:"#10b981", Lavender:"#a78bfa", Chocolate:"#78350f", Peach:"#fb923c",
+        Sky:"#38bdf8", Wine:"#881337", Forest:"#166534", Sand:"#d2b48c"
+    };
     let selectedSizes  = [...ALL_SIZES];
     let selectedColors = [];
     let isUploading = false;
