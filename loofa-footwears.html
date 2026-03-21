@@ -1350,7 +1350,7 @@
     <!-- TICKER -->
     <div class="overflow-hidden bg-black text-white py-2" style="border-bottom:1px solid rgba(204,0,0,.4);">
         <div class="flex gap-12 animate-marquee whitespace-nowrap font-bold text-sm">
-            <span>🔥 New Arrivals Added every 14 days</span>
+            <span>🔥 New Arrivals Added </span>
             <span>🚚 Delivery Across Kerala</span>
             <span>💯 Premium Quality Footwear</span>
             <span>⚡ Stock Updated Live</span>
@@ -2604,7 +2604,17 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         //  FILTER + SORT SYSTEM
         // ══════════════════════════════════
 
-        const COLOR_HEX_MAP = {Black:"#111",White:"#e8e8e8",Red:"#cc0000",Brown:"#7b4f2a",Navy:"#1a2b5e",Grey:"#888",Tan:"#c49a6c",Green:"#2d6a4f",Blue:"#2563eb",Maroon:"#6b0f1a",Beige:"#d4b896",Orange:"#ea580c"};
+        const COLOR_HEX_MAP = {
+            Black:"#111111", White:"#f0f0f0", Red:"#cc0000", Brown:"#7b4f2a",
+            Navy:"#1a2b5e", Grey:"#888888", Tan:"#c49a6c", Green:"#2d6a4f",
+            Blue:"#2563eb", Maroon:"#6b0f1a", Beige:"#d4b896", Orange:"#ea580c",
+            Purple:"#7c3aed", Pink:"#ec4899", Yellow:"#eab308", Cyan:"#06b6d4",
+            Teal:"#0d9488", Lime:"#65a30d", Indigo:"#4338ca", Violet:"#8b5cf6",
+            Rose:"#f43f5e", Coral:"#f97316", Gold:"#d97706", Silver:"#94a3b8",
+            Cream:"#fef3c7", Khaki:"#a16207", Olive:"#4d7c0f", Rust:"#c2410c",
+            Mint:"#10b981", Lavender:"#a78bfa", Chocolate:"#78350f", Peach:"#fb923c",
+            Sky:"#38bdf8", Wine:"#881337", Forest:"#166534", Sand:"#d2b48c"
+        };
 
         // Active filters state
         let activeFilters = { sizes:[], colors:[], types:[], brands:[], price:null };
