@@ -235,6 +235,38 @@
         #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
 
+
+        /* BULK SLOT */
+        .bulk-slot {
+            background: #f9f9f9; border-radius: 16px;
+            padding: 1rem; border: 1.5px solid #eee;
+        }
+        .bulk-slot-header {
+            font-size: .75rem; font-weight: 900; color: #cc0000;
+            letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: .75rem;
+        }
+        .bulk-photo-row {
+            display: flex; gap: .75rem; margin-bottom: .75rem; align-items: flex-start;
+        }
+        .bulk-photo-pick {
+            flex: 1; height: 90px; border: 2px dashed #ddd;
+            border-radius: 12px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            cursor: pointer; position: relative; overflow: hidden;
+            background: #fff; transition: border-color .2s;
+        }
+        .bulk-photo-pick.has-photo { border-color: #cc0000; border-style: solid; }
+        .bulk-photo-pick input { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
+        .bulk-photo-pick img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+        .bulk-preview {
+            width: 90px; height: 90px; border-radius: 12px;
+            border: 2px dashed #eee; overflow: hidden; flex-shrink: 0;
+            background: #f5f5f5; display: flex; align-items: center;
+            justify-content: center;
+        }
+        .bulk-preview img { width:100%;height:100%;object-fit:cover; }
+        .bulk-preview-empty { font-size:.65rem;color:#ccc;font-weight:700;text-align:center;padding:.3rem; }
     </style>
 </head>
 <body>
@@ -287,35 +319,44 @@
     </div>
 
     <div class="product-list" id="productList"></div>
-    <button class="fab" onclick="openForm()">
+
+    <!-- Single add FAB -->
+    <button class="fab" onclick="openForm()" style="bottom:90px;">
         <i class="fas fa-plus"></i>
+    </button>
+    <!-- Bulk add FAB -->
+    <button class="fab" onclick="openBulk()"
+            style="bottom:24px;background:linear-gradient(135deg,#1a1a1a,#333);box-shadow:0 4px 20px rgba(0,0,0,.4);font-size:.7rem;font-weight:900;letter-spacing:.5px;width:56px;height:56px;">
+        3x
     </button>
 
 
 </div>
 
-<!-- BOTTOM SHEET FORM -->
+<!-- BOTTOM SHEET FORM — SINGLE EDIT/ADD -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="closeFormOutside(event)">
     <div class="sheet">
         <div class="sheet-handle"></div>
-        <div class="sheet-title" id="sheetTitle">Add New Product</div>
+        <div class="sheet-title" id="sheetTitle">Add Product</div>
         <input type="hidden" id="editId">
         <input type="hidden" id="photoUrl">
 
-        <!-- Photo Picker -->
-        <div class="photo-picker" id="photoPicker">
-            <input type="file" accept="image/*"
-                   id="photoInput" onchange="handlePhoto(this)">
-            <i class="fas fa-camera"></i>
-            <div class="photo-picker-label">
-                📸 Take Photo or Pick from Gallery
+        <!-- Photo Picker + Preview -->
+        <div style="display:flex;gap:.75rem;margin-bottom:1rem;align-items:flex-start;">
+            <div class="photo-picker" id="photoPicker" style="flex:1;height:130px;">
+                <input type="file" accept="image/*" id="photoInput" onchange="handlePhoto(this)">
+                <i class="fas fa-camera"></i>
+                <div class="photo-picker-label">📸 Pick Photo</div>
+                <div class="upload-progress" id="uploadProgress" style="width:0%"></div>
             </div>
-            <div class="upload-progress" id="uploadProgress" style="width:0%"></div>
+            <!-- Preview -->
+            <div id="imgPreviewBox" style="width:130px;height:130px;border-radius:14px;border:2px dashed #e5e7eb;overflow:hidden;flex-shrink:0;background:#f9f9f9;display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:.7rem;color:#bbb;font-weight:600;text-align:center;padding:.5rem;">Preview</span>
+            </div>
         </div>
 
         <label class="field-label">Product Name</label>
-        <input type="text" class="field-input" id="fName"
-               placeholder="e.g. Bata Casual Sneaker">
+        <input type="text" class="field-input" id="fName" placeholder="e.g. Bata Casual Sneaker">
 
         <div class="field-row">
             <div>
@@ -331,15 +372,9 @@
             </div>
         </div>
 
-        <label class="field-label">Available Sizes</label>
-        <div class="sizes-wrap" id="sizesWrap"></div>
-
-        <label class="field-label" style="margin-top:.5rem;">Available Colors</label>
-        <div class="sizes-wrap" id="colorsWrap"></div>
-
-        <div class="field-row" style="margin-top:.5rem;">
+        <div class="field-row">
             <div>
-                <label class="field-label">Original Price (₹) <span style="color:#aaa;font-size:.65rem;">for discount</span></label>
+                <label class="field-label">Original Price (₹)</label>
                 <input type="number" class="field-input" id="fOrigPrice" placeholder="1299 (optional)">
             </div>
             <div>
@@ -348,8 +383,39 @@
             </div>
         </div>
 
+        <label class="field-label">Available Sizes</label>
+        <div class="sizes-wrap" id="sizesWrap"></div>
+
+        <label class="field-label" style="margin-top:.5rem;">Available Colors</label>
+        <div class="sizes-wrap" id="colorsWrap"></div>
+
         <button class="save-btn" id="saveBtn" onclick="saveProduct()">
             <i class="fas fa-check" style="margin-right:8px;"></i>Save Product
+        </button>
+    </div>
+</div>
+
+<!-- BULK ADD SHEET — 3 products at once -->
+<div class="sheet-overlay" id="bulkOverlay" onclick="if(event.target===this)closeBulk()">
+    <div class="sheet" style="max-height:95vh;">
+        <div class="sheet-handle"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 0 1rem;">
+            <div class="sheet-title" style="margin:0;">Bulk Add (3 Products)</div>
+            <button onclick="closeBulk()" style="background:none;border:none;color:#aaa;font-size:1.1rem;cursor:pointer;">✕</button>
+        </div>
+
+        <!-- 3 product slots -->
+        <div id="bulkSlots" style="display:flex;flex-direction:column;gap:1rem;">
+        </div>
+
+        <button onclick="saveBulk()" style="
+            width:100%;margin-top:1rem;padding:1rem;
+            background:linear-gradient(135deg,#cc0000,#ff3333);
+            color:#fff;border:none;border-radius:14px;
+            font-family:Montserrat,sans-serif;font-weight:900;
+            font-size:.95rem;cursor:pointer;
+            box-shadow:0 4px 20px rgba(204,0,0,.4);">
+            <i class="fas fa-check" style="margin-right:8px;"></i>Save All 3 Products
         </button>
     </div>
 </div>
@@ -512,6 +578,8 @@
             img.src = e.target.result;
             picker.querySelector('.photo-picker-label').style.display = 'none';
             picker.querySelector('i').style.display = 'none';
+            // Update preview box
+            updatePreview(e.target.result);
         };
         reader.readAsDataURL(file);
 
@@ -520,10 +588,12 @@
         try {
             const url = await uploadToCloudinary(file);
             document.getElementById('photoUrl').value = url;
+            updatePreview(url);
             showToast('✅ Photo uploaded!');
         } catch(e) {
             showToast('❌ Photo upload failed. Try again.');
             document.getElementById('photoUrl').value = '';
+            updatePreview('');
         }
     }
 
@@ -651,6 +721,7 @@
             picker.querySelector('.photo-picker-label').style.display = 'block';
             picker.querySelector('i').style.display = 'block';
             document.getElementById('photoInput').value = '';
+            updatePreview('');
         }
 
         renderSizes();
@@ -723,6 +794,203 @@
         if (ok) {
             renderList();
             showToast('🗑️ Product deleted.');
+        }
+    }
+
+    // ── IMAGE PREVIEW in single form ──
+    function updatePreview(url) {
+        const box = document.getElementById('imgPreviewBox');
+        if (!box) return;
+        if (url) {
+            box.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;">`;
+        } else {
+            box.innerHTML = '<span style="font-size:.7rem;color:#bbb;font-weight:600;text-align:center;padding:.5rem;">Preview</span>';
+        }
+    }
+
+    // ── BULK ADD ──
+    let bulkData = [{},{},{}]; // 3 product slots
+
+    function openBulk() {
+        bulkData = [{url:'',name:'',price:'',stock:'true',origPrice:'',discount:''},
+                    {url:'',name:'',price:'',stock:'true',origPrice:'',discount:''},
+                    {url:'',name:'',price:'',stock:'true',origPrice:'',discount:''}];
+        window.bulkSizes  = [ALL_SIZES.slice(), ALL_SIZES.slice(), ALL_SIZES.slice()];
+        window.bulkColors = [[], [], []];
+        renderBulkSlots();
+        document.getElementById('bulkOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBulk() {
+        document.getElementById('bulkOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function renderBulkSlots() {
+        const container = document.getElementById('bulkSlots');
+        // Init sizes/colors for each slot
+        if (!window.bulkSizes) window.bulkSizes = [ALL_SIZES.slice(), ALL_SIZES.slice(), ALL_SIZES.slice()];
+        if (!window.bulkColors) window.bulkColors = [[], [], []];
+
+        container.innerHTML = [0,1,2].map(i => `
+            <div class="bulk-slot">
+                <div class="bulk-slot-header">Product ${i+1}</div>
+                <div class="bulk-photo-row">
+                    <div class="bulk-photo-pick" id="bpick-${i}">
+                        <input type="file" accept="image/*" onchange="handleBulkPhoto(${i}, this)">
+                        <i class="fas fa-camera" style="font-size:1.2rem;color:#ddd;margin-bottom:4px;"></i>
+                        <span style="font-size:.65rem;color:#bbb;font-weight:700;">Tap to pick</span>
+                    </div>
+                    <div class="bulk-preview" id="bprev-${i}">
+                        <div class="bulk-preview-empty">Preview</div>
+                    </div>
+                </div>
+                <input type="text" class="field-input" placeholder="Product name"
+                       oninput="bulkData[${i}].name=this.value" style="margin-bottom:.5rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem;">
+                    <input type="number" class="field-input" placeholder="Price ₹"
+                           oninput="bulkData[${i}].price=this.value">
+                    <select class="field-select" onchange="bulkData[${i}].stock=this.value">
+                        <option value="true">✅ In Stock</option>
+                        <option value="false">❌ Out of Stock</option>
+                    </select>
+                    <input type="number" class="field-input" placeholder="Orig Price ₹ (opt)"
+                           oninput="bulkData[${i}].origPrice=this.value">
+                    <input type="number" class="field-input" placeholder="Discount %"
+                           oninput="bulkData[${i}].discount=this.value" min="0" max="90">
+                </div>
+
+                <!-- Sizes -->
+                <div style="font-size:.68rem;font-weight:900;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">Sizes</div>
+                <div id="bsizes-${i}" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem;">
+                    ${ALL_SIZES.map(s => `
+                        <div onclick="toggleBulkSize(${i},'${s}',this)"
+                             style="padding:4px 10px;border-radius:20px;border:1.5px solid #eee;background:#fff;font-size:.72rem;font-weight:700;color:#666;cursor:pointer;transition:all .15s;"
+                             class="bsize-chip bsize-chip-${i} ${ALL_SIZES.includes(s)?'bsize-active':''}"
+                             data-s="${s}">${s}</div>
+                    `).join('')}
+                </div>
+
+                <!-- Colors -->
+                <div style="font-size:.68rem;font-weight:900;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">Colors</div>
+                <div id="bcolors-${i}" style="display:flex;flex-wrap:wrap;gap:5px;">
+                    ${ALL_COLORS.map(c => `
+                        <div onclick="toggleBulkColor(${i},'${c}',this)"
+                             style="padding:4px 8px;border-radius:20px;border:1.5px solid #eee;background:#fff;font-size:.68rem;font-weight:700;color:#666;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;"
+                             class="bcolor-chip" data-c="${c}">
+                            <span style="width:9px;height:9px;border-radius:50%;background:${COLOR_HEX[c]||'#888'};border:1px solid rgba(0,0,0,.15);flex-shrink:0;display:inline-block;"></span>${c}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        // Mark all sizes as active initially
+        [0,1,2].forEach(i => {
+            document.querySelectorAll(`.bsize-chip-${i}`).forEach(el => {
+                el.style.background = '#cc0000';
+                el.style.borderColor = '#cc0000';
+                el.style.color = '#fff';
+            });
+        });
+    }
+
+    function toggleBulkSize(idx, s, el) {
+        if (!window.bulkSizes) window.bulkSizes = [ALL_SIZES.slice(), ALL_SIZES.slice(), ALL_SIZES.slice()];
+        const arr = window.bulkSizes[idx];
+        if (arr.includes(s)) {
+            window.bulkSizes[idx] = arr.filter(x => x !== s);
+            el.style.background = '#fff';
+            el.style.borderColor = '#eee';
+            el.style.color = '#666';
+        } else {
+            window.bulkSizes[idx].push(s);
+            window.bulkSizes[idx].sort((a,b) => parseInt(a)-parseInt(b));
+            el.style.background = '#cc0000';
+            el.style.borderColor = '#cc0000';
+            el.style.color = '#fff';
+        }
+    }
+
+    function toggleBulkColor(idx, c, el) {
+        if (!window.bulkColors) window.bulkColors = [[], [], []];
+        const arr = window.bulkColors[idx];
+        if (arr.includes(c)) {
+            window.bulkColors[idx] = arr.filter(x => x !== c);
+            el.style.background = '#fff';
+            el.style.borderColor = '#eee';
+            el.style.color = '#666';
+        } else {
+            window.bulkColors[idx].push(c);
+            el.style.background = COLOR_HEX[c] || '#888';
+            el.style.borderColor = COLOR_HEX[c] || '#888';
+            el.style.color = '#fff';
+        }
+    }
+
+    async function handleBulkPhoto(idx, input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Show local preview immediately
+        const reader = new FileReader();
+        reader.onload = e => {
+            const pick = document.getElementById('bpick-'+idx);
+            const prev = document.getElementById('bprev-'+idx);
+            pick.classList.add('has-photo');
+            let img = pick.querySelector('img');
+            if (!img) { img = document.createElement('img'); pick.appendChild(img); }
+            img.src = e.target.result;
+            // Show in preview box
+            prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+        };
+        reader.readAsDataURL(file);
+
+        // Upload to Cloudinary
+        showToast('📤 Uploading photo ' + (idx+1) + '...');
+        try {
+            const url = await uploadToCloudinary(file);
+            bulkData[idx].url = url;
+            showToast('✅ Photo ' + (idx+1) + ' uploaded!');
+        } catch(e) {
+            showToast('❌ Photo ' + (idx+1) + ' failed!');
+        }
+    }
+
+    async function saveBulk() {
+        // Validate
+        const valid = bulkData.filter(b => b.name && b.price && b.url);
+        if (!valid.length) { showToast('⚠️ Fill at least 1 product with photo, name and price!'); return; }
+
+        showLoading('Saving ' + valid.length + ' products...');
+        try {
+            const res  = await fetch(BIN_URL+'/latest', { headers:{'X-Master-Key':MASTER_KEY} });
+            const data = await res.json();
+            const newProducts = valid.map((b, i) => ({
+                id:       Date.now() + Math.random() + i,
+                name:     b.name,
+                price:    parseInt(b.price),
+                image:    b.url,
+                sizes:    window.bulkSizes  ? window.bulkSizes[bulkData.indexOf(b)]  : [...ALL_SIZES],
+                colors:   window.bulkColors ? window.bulkColors[bulkData.indexOf(b)] : [],
+                origPrice: b.origPrice ? parseInt(b.origPrice) : null,
+                discount:  b.discount  ? parseInt(b.discount)  : null,
+                inStock:  b.stock === 'true'
+            }));
+            products = [...products, ...newProducts];
+            await fetch(BIN_URL, {
+                method:'PUT',
+                headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},
+                body: JSON.stringify({...data.record, loofa_products: products})
+            });
+            hideLoading();
+            closeBulk();
+            renderList();
+            showToast('🎉 ' + valid.length + ' products added!');
+        } catch(e) {
+            hideLoading();
+            showToast('❌ Save failed!');
         }
     }
 
