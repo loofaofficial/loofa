@@ -554,19 +554,21 @@
 
         /* ── IMAGE PREVIEW LIGHTBOX ── */
         #imgPreview {
-            display: none;
+            display: flex;
             position: fixed; inset: 0; z-index: 999999;
             background: rgba(0,0,0,0);
             align-items: center; justify-content: center;
             padding: 1.5rem;
             backdrop-filter: blur(0px);
-            transition: background 0.35s ease, backdrop-filter 0.35s ease;
+            opacity: 0;
+            pointer-events: none;
+            transition: background 0.35s ease, backdrop-filter 0.35s ease, opacity 0.35s ease;
         }
         #imgPreview.open {
-            display: flex;
             background: rgba(0,0,0,0.92);
             backdrop-filter: blur(20px);
-            animation: previewFadeIn 0.3s ease both;
+            opacity: 1;
+            pointer-events: all;
         }
         @keyframes previewFadeIn {
             from { opacity:0; }
@@ -1345,7 +1347,230 @@
             animation: cardDeal .55s cubic-bezier(.34,1.56,.64,1) forwards !important;
         }
 
-        
+
+        /* ══════════════════════════════════════════
+           🎮 GAME-LEVEL ANIMATIONS
+        ══════════════════════════════════════════ */
+
+        /* ── COMBO BURST — XP-style floating +1 text on add to cart ── */
+        .combo-burst {
+            position: fixed;
+            pointer-events: none;
+            font-family: Montserrat, sans-serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: #fbbf24;
+            text-shadow: 0 0 12px rgba(251,191,36,.8), 0 2px 0 rgba(0,0,0,.5);
+            z-index: 99999;
+            animation: comboBurst 1s cubic-bezier(.22,1,.36,1) forwards;
+            white-space: nowrap;
+        }
+        @keyframes comboBurst {
+            0%   { opacity:1; transform: translateY(0) scale(1); }
+            40%  { opacity:1; transform: translateY(-55px) scale(1.3); }
+            100% { opacity:0; transform: translateY(-110px) scale(.8); }
+        }
+
+        /* ── SCREEN SHAKE on cart add ── */
+        @keyframes screenShake {
+            0%,100% { transform: translateX(0); }
+            15%  { transform: translateX(-5px) rotate(-.4deg); }
+            30%  { transform: translateX(5px) rotate(.4deg); }
+            45%  { transform: translateX(-4px); }
+            60%  { transform: translateX(4px); }
+            75%  { transform: translateX(-2px); }
+            90%  { transform: translateX(2px); }
+        }
+        body.shake { animation: screenShake .45s cubic-bezier(.36,.07,.19,.97) both; }
+
+        /* ── PARTICLE BURST on add to cart ── */
+        .cart-particle {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            animation: cartParticle .7s ease-out forwards;
+        }
+        @keyframes cartParticle {
+            0%   { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
+        }
+
+        /* ── NEON SCAN LINE on nav ── */
+        .glass-nav::after {
+            content: '';
+            position: absolute; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(251,191,36,0) 20%,
+                rgba(251,191,36,.9) 50%,
+                rgba(251,191,36,0) 80%,
+                transparent 100%);
+            bottom: 0;
+            animation: navScan 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes navScan {
+            0%   { transform: translateX(-100%); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translateX(200%); opacity: 0; }
+        }
+
+        /* ── GLITCH TEXT on logo hover ── */
+        .logo-text:hover {
+            animation: logoShimmer 4s linear infinite, glitch .4s steps(2) !important;
+        }
+        @keyframes glitch {
+            0%   { text-shadow: 2px 0 #ff0000, -2px 0 #00ffff; clip-path: inset(0 0 95% 0); }
+            20%  { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; clip-path: inset(30% 0 50% 0); }
+            40%  { text-shadow: 2px 2px #ff0000, -2px -2px #00ffff; clip-path: inset(60% 0 20% 0); }
+            60%  { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; clip-path: inset(10% 0 80% 0); }
+            80%  { text-shadow: 2px 0 #ff0000, -2px 0 #00ffff; clip-path: inset(80% 0 5% 0); }
+            100% { text-shadow: none; clip-path: inset(0 0 0 0); }
+        }
+
+        /* ── ENERGY CHARGE on checkout button ── */
+        #checkoutBtn::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255,255,255,.25) 50%,
+                transparent 100%);
+            transform: translateX(-100%);
+            animation: energyCharge 2.5s ease-in-out infinite;
+        }
+        #checkoutBtn { position: relative; overflow: hidden; }
+        @keyframes energyCharge {
+            0%   { transform: translateX(-100%); }
+            60%  { transform: translateX(200%); }
+            100% { transform: translateX(200%); }
+        }
+
+        /* ── PIXEL CONFETTI burst (add to wishlist) ── */
+        .confetti-piece {
+            position: fixed;
+            width: 6px; height: 6px;
+            pointer-events: none;
+            z-index: 99999;
+            border-radius: 1px;
+            animation: confettiFall 1.1s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--cx), var(--cy)) rotate(var(--cr)) scale(0); opacity: 0; }
+        }
+
+        /* ── HOLOGRAPHIC card shimmer on hover ── */
+        .product-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(
+                125deg,
+                transparent 20%,
+                rgba(255,255,255,.04) 30%,
+                rgba(255,215,0,.06) 40%,
+                rgba(165,0,0,.05) 50%,
+                rgba(255,255,255,.04) 60%,
+                transparent 70%
+            );
+            background-size: 300% 300%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            transition: opacity .4s ease;
+            animation: holoShift 4s linear infinite paused;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+            animation-play-state: running;
+        }
+        @keyframes holoShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ── LEVEL UP toast style ── */
+        .levelup-toast {
+            position: fixed; top: 80px; left: 50%;
+            transform: translateX(-50%) translateY(-30px);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid rgba(251,191,36,.5);
+            color: #fbbf24;
+            padding: .6rem 1.4rem;
+            border-radius: 50px;
+            font-size: .78rem; font-weight: 900;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            box-shadow: 0 0 24px rgba(251,191,36,.3), 0 0 48px rgba(251,191,36,.1);
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            animation: levelUpAnim 2.2s cubic-bezier(.22,1,.36,1) forwards;
+        }
+        @keyframes levelUpAnim {
+            0%   { opacity:0; transform: translateX(-50%) translateY(-30px) scale(.8); }
+            15%  { opacity:1; transform: translateX(-50%) translateY(0px) scale(1.05); }
+            75%  { opacity:1; transform: translateX(-50%) translateY(0px) scale(1); }
+            100% { opacity:0; transform: translateX(-50%) translateY(-20px) scale(.9); }
+        }
+
+        /* ── SECTION transition — wipe in from left like game stage load ── */
+        .section-enter {
+            animation: stageLoad .45s cubic-bezier(.22,1,.36,1) both !important;
+        }
+        @keyframes stageLoad {
+            0%   { opacity:0; transform: translateX(-28px) scale(.98); filter: blur(4px); }
+            60%  { filter: blur(0); }
+            100% { opacity:1; transform: translateX(0) scale(1); filter: blur(0); }
+        }
+
+        /* ── CART ICON — bounce when items added ── */
+        @keyframes cartBounce {
+            0%,100% { transform: scale(1) rotate(0deg); }
+            20%  { transform: scale(1.4) rotate(-15deg); }
+            40%  { transform: scale(1.2) rotate(10deg); }
+            60%  { transform: scale(1.3) rotate(-8deg); }
+            80%  { transform: scale(1.1) rotate(4deg); }
+        }
+        .cart-icon-bounce { animation: cartBounce .6s cubic-bezier(.34,1.56,.64,1); }
+
+        /* ── POWER BEAM — horizontal scan across hero ── */
+        #hero-banner::after {
+            content: '';
+            position: absolute; top: 0; left: -100%; right: auto;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(251,191,36,.04),
+                rgba(255,255,255,.06),
+                rgba(251,191,36,.04),
+                transparent);
+            pointer-events: none;
+            z-index: 3;
+            animation: powerBeam 6s ease-in-out infinite;
+        }
+        @keyframes powerBeam {
+            0%   { left: -60%; }
+            100% { left: 120%; }
+        }
+
+        /* ── PRICE TAG — flash on render ── */
+        @keyframes priceFlash {
+            0%,100% { color: inherit; }
+            30%  { color: #fbbf24; text-shadow: 0 0 16px rgba(251,191,36,.8); }
+        }
+        .price-flash { animation: priceFlash .6s ease both; }
+
+        /* ── SCROLL PROGRESS BAR — neon glow ── */
+        #scrollBar {
+            box-shadow: 0 0 8px rgba(165,0,0,.7), 0 0 16px rgba(165,0,0,.3) !important;
+        }
 
     </style>
 </head>
@@ -1358,7 +1583,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;height:52px;">
                 <!-- Left: logo + dark + lang -->
                 <div style="display:flex;align-items:center;gap:4px;">
-                    <div style="display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="showSection('home')">
+                    <div style="display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="showSectionAnimated('home')">
                         <i class="fas fa-shoe-prints" style="filter:drop-shadow(0 0 6px rgba(255,215,0,.5));font-size:1rem;"></i>
                         <span class="logo-text" style="font-size:1rem;">LOOFA</span>
                     </div>
@@ -1372,17 +1597,17 @@
                 </div>
                 <!-- Right: nav tabs -->
                 <div style="display:flex;align-items:center;gap:2px;">
-                    <button onclick="showSection('wishlist')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
+                    <button onclick="showSectionAnimated('wishlist')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
                         <i class="fas fa-heart" style="color:#e05555;"></i>
                         <span id="wishCount" style="position:absolute;top:2px;right:2px;background:#e05555;color:#fff;min-width:14px;height:14px;border-radius:999px;display:none;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
                     </button>
-                    <button onclick="showSection('cart')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
+                    <button onclick="showSectionAnimated('cart')" style="position:relative;background:none;border:none;color:white;padding:6px 8px;cursor:pointer;font-size:1rem;">
                         <i class="fas fa-shopping-bag"></i>
                         <span id="cartCount" style="position:absolute;top:2px;right:2px;background:white;color:#a50000;min-width:14px;height:14px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;padding:0 2px;">0</span>
                     </button>
-                    <button onclick="showSection('orders')"
+                    <button onclick="showSectionAnimated('orders')"
                             style="background:none;border:none;color:#ddd;padding:5px 6px;cursor:pointer;font-size:.65rem;font-weight:800;letter-spacing:.3px;">ORDERS</button>
-                    <button onclick="showSection('feedback')"
+                    <button onclick="showSectionAnimated('feedback')"
                             style="background:none;border:none;color:#ddd;padding:5px 6px;cursor:pointer;font-size:.8rem;">⭐</button>
                 </div>
             </div>
@@ -1610,7 +1835,7 @@
             <div id="wishlistEmpty" class="hidden text-center py-16">
                 <i class="far fa-heart text-6xl text-gray-200 dark:text-gray-600 mb-4 block" style="animation:floatIcon 3s ease infinite;"></i>
                 <p class="text-gray-500 font-bold text-lg">Your wishlist is empty</p>
-                <button onclick="showSection('home')" class="mt-4 text-red-600 font-bold hover:underline">
+                <button onclick="showSectionAnimated('home')" class="mt-4 text-red-600 font-bold hover:underline">
                     Browse Products →
                 </button>
             </div>
@@ -2096,7 +2321,7 @@
         function renderCart() {
             const container = document.getElementById('cartItems');
             if (!cart.length) {
-                container.innerHTML=`<div class="text-center py-12"><i class="fas fa-box-open text-5xl text-gray-200 dark:text-gray-600 mb-4 block"></i><p class="text-gray-500 font-bold">Your cart is empty.</p><button onclick="showSection('home')" class="mt-4 text-red-600 font-bold hover:underline">Continue Shopping →</button></div>`;
+                container.innerHTML=`<div class="text-center py-12"><i class="fas fa-box-open text-5xl text-gray-200 dark:text-gray-600 mb-4 block"></i><p class="text-gray-500 font-bold">Your cart is empty.</p><button onclick="showSectionAnimated('home')" class="mt-4 text-red-600 font-bold hover:underline">Continue Shopping →</button></div>`;
                 document.getElementById('cartTotal').innerText='0'; return;
             }
             let total=0;
@@ -2571,6 +2796,8 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         }
 
         function closePreview(e) {
+            // Called directly (no event) = close button click → always close
+            // Called with event = backdrop click → only close if clicking the backdrop itself
             if (e && e.target !== document.getElementById('imgPreview')) return;
             document.getElementById('imgPreview').classList.remove('open');
             document.body.style.overflow = '';
@@ -2706,7 +2933,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             const currentVal = document.getElementById('color-' + id)?.value;
             const container  = document.getElementById('colorOptionsContainer');
             container.innerHTML = p.colors.map(c => {
-                const hex = COLOR_PALETTE[c] || '#888';
+                const hex = COLOR_HEX_MAP[c] || '#888';
                 return `
                 <div class="color-option ${c === currentVal ? 'active' : ''}"
                      onclick="selectColor('${c}', '${hex}', ${id}, this)">
@@ -2766,7 +2993,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             "Maroon":"#6b0f1a",
             "Beige":"#d4b896",
             "Orange":"#ea580c",
-            "Purple":"#cc3333",
+            "Purple":"#7e22ce",
             "Pink":"#ec4899",
             "Yellow":"#eab308",
             "Cyan":"#06b6d4",
@@ -3089,14 +3316,14 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                     <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;">
                         <div class="review-avatar">${r.name.charAt(0).toUpperCase()}</div>
                         <div style="flex:1;">
-                            <div style="font-weight:800;font-size:.9rem;color:inherit;">${r.name}</div>
+                            <div style="font-weight:800;font-size:.9rem;" class="text-black dark:text-white">${r.name}</div>
                             <div style="font-size:.7rem;color:#aaa;margin-top:1px;">${r.date}</div>
                         </div>
                         <div style="font-size:1rem;">
                             ${'★'.repeat(r.stars)}<span style="color:#e5e7eb;">${'★'.repeat(5-r.stars)}</span>
                         </div>
                     </div>
-                    <p style="font-size:.85rem;color:#555;line-height:1.6;font-weight:500;">${r.text}</p>
+                    <p style="font-size:.85rem;color:#555;line-height:1.6;font-weight:500;" class="dark:!text-gray-300">${r.text}</p>
                 </div>
             `).join('');
         }
@@ -3283,8 +3510,12 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             const rtEl = document.getElementById('reviewText');
             if (rtEl) rtEl.placeholder = L.reviewPlaceholder;
 
-            // Re-render to update size/color/add buttons
-            if (products.length) renderProducts(products);
+            // Re-render to update size/color/add buttons — preserve active filters/sort
+            if (products.length) {
+                const filtered = applyFilterLogic(products);
+                const sorted   = sortProducts(filtered);
+                renderProducts(sorted);
+            }
         }
 
                 // ── HERO RIPPLE ──
@@ -3323,7 +3554,132 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             });
         }
 
-        // ── BOOT ──
+        // ══════════════════════════════════════
+        //  🔔 PUSH NOTIFICATION SYSTEM
+        // ══════════════════════════════════════
+
+        // Store known product IDs so we can detect NEW ones
+        let knownProductIds = JSON.parse(localStorage.getItem('lf_known_ids')) || null;
+        let notifPermission = Notification.permission; // 'default' | 'granted' | 'denied'
+        const POLL_INTERVAL = 30000; // check every 30 seconds
+        let pollTimer = null;
+
+        // ── Step 1: Ask permission once on load ──
+        async function requestNotifPermission() {
+            if (!('Notification' in window)) return false;
+            if (notifPermission === 'granted') return true;
+            if (notifPermission === 'denied')  return false;
+            const result = await Notification.requestPermission();
+            notifPermission = result;
+            return result === 'granted';
+        }
+
+        // ── Step 2: Send a native OS notification ──
+        function sendPushNotif(title, body, icon) {
+            if (notifPermission !== 'granted') return;
+            const n = new Notification(title, {
+                body,
+                icon: icon || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23a50000"/><text y="44" x="12" font-size="36">👟</text></svg>',
+                badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23a50000"/><text y="44" x="12" font-size="36">👟</text></svg>',
+                tag: 'loofa-new-product',   // replaces previous instead of stacking
+                renotify: true,
+                vibrate: [200, 100, 200],
+            });
+            // Clicking the notif brings user back to the app
+            n.onclick = () => { window.focus(); showSectionAnimated('home'); n.close(); };
+        }
+
+        // ── Step 3: Poll JSONBin and diff against known IDs ──
+        async function pollForNewProducts() {
+            try {
+                const res  = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': MASTER_KEY } });
+                const data = await res.json();
+                const fresh = data.record.loofa_products || [];
+
+                const freshIds = fresh.map(p => p.id);
+
+                // First run — just save IDs silently, no notification
+                if (knownProductIds === null) {
+                    knownProductIds = freshIds;
+                    localStorage.setItem('lf_known_ids', JSON.stringify(knownProductIds));
+                    return;
+                }
+
+                // Find IDs not in our saved list → these are NEW
+                const newOnes = fresh.filter(p => !knownProductIds.includes(p.id));
+
+                if (newOnes.length > 0) {
+                    // Update known list
+                    knownProductIds = freshIds;
+                    localStorage.setItem('lf_known_ids', JSON.stringify(knownProductIds));
+
+                    // Update products & re-render
+                    products = fresh;
+                    renderProducts(products);
+                    document.getElementById('productCount').textContent = products.length + ' Styles Available';
+
+                    // Fire OS notification
+                    if (newOnes.length === 1) {
+                        const p = newOnes[0];
+                        sendPushNotif(
+                            '👟 New Arrival at LOOFA!',
+                            `${p.name} — ₹${parseInt(p.price).toLocaleString('en-IN')} just landed. Tap to shop!`,
+                            p.image || undefined
+                        );
+                    } else {
+                        sendPushNotif(
+                            `🔥 ${newOnes.length} New Arrivals at LOOFA!`,
+                            newOnes.slice(0,3).map(p => p.name).join(', ') + (newOnes.length > 3 ? ` & ${newOnes.length-3} more!` : ' just landed!')
+                        );
+                    }
+
+                    // Also show in-app toast
+                    showToast(`🆕 ${newOnes.length} new arrival${newOnes.length > 1 ? 's' : ''}!`);
+                } else {
+                    // Products may have been removed — keep list in sync silently
+                    knownProductIds = freshIds;
+                    localStorage.setItem('lf_known_ids', JSON.stringify(knownProductIds));
+                }
+            } catch(e) { /* silent fail — don't annoy user */ }
+        }
+
+        // ── Step 4: Start polling loop ──
+        function startNotifPolling() {
+            if (pollTimer) clearInterval(pollTimer);
+            // First poll immediately after a short delay
+            setTimeout(pollForNewProducts, 5000);
+            // Then keep polling
+            pollTimer = setInterval(pollForNewProducts, POLL_INTERVAL);
+        }
+
+        // ── Step 5: Ask permission + start on load ──
+        async function initNotifications() {
+            if (!('Notification' in window)) return;
+            // Ask on first visit, silently skip if already decided
+            if (notifPermission === 'default') {
+                // Small delay so user has settled on the page
+                setTimeout(async () => {
+                    const granted = await requestNotifPermission();
+                    if (granted) {
+                        showToast('🔔 You\'ll be notified of new arrivals!');
+                        startNotifPolling();
+                    }
+                }, 3500);
+            } else if (notifPermission === 'granted') {
+                startNotifPolling();
+            }
+            // If denied — respect it, no polling
+        }
+
+        // Stop polling when tab is hidden, resume when visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(pollTimer);
+                pollTimer = null;
+            } else if (notifPermission === 'granted') {
+                startNotifPolling();
+            }
+        });
         window.addEventListener('DOMContentLoaded',async()=>{
             applyTheme();
             spawnParticles();
@@ -3333,7 +3689,143 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             await loadProducts();
             updateWishCount();
             applyLang();
+            initGameAnimations();
+            initNotifications();
         });
+
+        // ══════════════════════════════════════
+        //  🎮 GAME ANIMATION ENGINE
+        // ══════════════════════════════════════
+
+        // Track cart combo count
+        let comboCount = 0;
+        let comboTimer = null;
+
+        function initGameAnimations() {
+            // Patch addToCart for game effects
+            const _origAddToCart = addToCart;
+            window.addToCart = function(id, btn) {
+                _origAddToCart(id, btn);
+                const p = products.find(x => x.id == id);
+                if (!p) return;
+                const rect = btn.getBoundingClientRect();
+                spawnComboBurst(rect, p.price);
+                spawnCartParticles(rect);
+                triggerScreenShake();
+                bounceCartIcon();
+                comboCount++;
+                clearTimeout(comboTimer);
+                comboTimer = setTimeout(() => { comboCount = 0; }, 3000);
+                if (comboCount >= 3) showLevelUp(`🔥 ${comboCount}x COMBO!`);
+            };
+
+            // Patch toggleWishlist for confetti
+            const _origWish = toggleWishlist;
+            window.toggleWishlist = function(id, btn) {
+                const wasIn = wishlist.includes(id);
+                _origWish(id, btn);
+                if (!wasIn) {
+                    const rect = btn.getBoundingClientRect();
+                    spawnConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+                }
+            };
+
+            // Patch showSection for level-up toast
+            const _origShow = showSectionAnimated;
+            window.showSectionAnimated = function(section) {
+                _origShow(section);
+                const labels = {cart:'🛒 Cart Loaded', orders:'📦 Order History', wishlist:'❤️ Wishlist', feedback:'⭐ Reviews'};
+                if (labels[section]) showLevelUp(labels[section]);
+            };
+        }
+
+        // ── COMBO BURST (floating +price text) ──
+        function spawnComboBurst(rect, price) {
+            const el = document.createElement('div');
+            el.className = 'combo-burst';
+            el.textContent = comboCount >= 2 ? `+₹${parseInt(price).toLocaleString('en-IN')} 🔥` : `+₹${parseInt(price).toLocaleString('en-IN')}`;
+            el.style.left = (rect.left + rect.width/2 - 40) + 'px';
+            el.style.top  = (rect.top - 10) + 'px';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1100);
+        }
+
+        // ── PARTICLE BURST (8 particles flying out) ──
+        const PARTICLE_COLORS = ['#fbbf24','#a50000','#ffffff','#f43f5e','#34d399'];
+        function spawnCartParticles(rect) {
+            const cx = rect.left + rect.width/2;
+            const cy = rect.top + rect.height/2;
+            for (let i = 0; i < 10; i++) {
+                const el = document.createElement('div');
+                el.className = 'cart-particle';
+                const angle = (i / 10) * Math.PI * 2;
+                const dist  = 50 + Math.random() * 60;
+                el.style.cssText = `
+                    left:${cx}px; top:${cy}px;
+                    background:${PARTICLE_COLORS[i % PARTICLE_COLORS.length]};
+                    --px:${Math.cos(angle)*dist}px;
+                    --py:${Math.sin(angle)*dist}px;
+                    animation-duration:${.5 + Math.random()*.3}s;
+                    animation-delay:${i*.03}s;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 900);
+            }
+        }
+
+        // ── SCREEN SHAKE ──
+        function triggerScreenShake() {
+            document.body.classList.remove('shake');
+            void document.body.offsetWidth; // reflow
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 450);
+        }
+
+        // ── CONFETTI BURST (wishlist) ──
+        const CONFETTI_COLORS = ['#fbbf24','#a50000','#ec4899','#8b5cf6','#34d399','#fff'];
+        function spawnConfetti(cx, cy) {
+            for (let i = 0; i < 18; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                const angle = Math.random() * Math.PI * 2;
+                const dist  = 60 + Math.random() * 80;
+                const rot   = (Math.random() - .5) * 720;
+                el.style.cssText = `
+                    left:${cx}px; top:${cy}px;
+                    background:${CONFETTI_COLORS[i % CONFETTI_COLORS.length]};
+                    --cx:${Math.cos(angle)*dist}px;
+                    --cy:${Math.sin(angle)*dist}px;
+                    --cr:${rot}deg;
+                    animation-duration:${.8 + Math.random()*.4}s;
+                    animation-delay:${i*.025}s;
+                    border-radius:${Math.random()>.5?'50%':'2px'};
+                    width:${4+Math.random()*6}px;
+                    height:${4+Math.random()*6}px;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1400);
+            }
+        }
+
+        // ── CART ICON BOUNCE ──
+        function bounceCartIcon() {
+            const icon = document.querySelector('#cartCount')?.previousElementSibling;
+            if (!icon) return;
+            icon.classList.remove('cart-icon-bounce');
+            void icon.offsetWidth;
+            icon.classList.add('cart-icon-bounce');
+            setTimeout(() => icon.classList.remove('cart-icon-bounce'), 650);
+        }
+
+        // ── LEVEL UP TOAST ──
+        function showLevelUp(msg) {
+            document.querySelectorAll('.levelup-toast').forEach(e => e.remove());
+            const el = document.createElement('div');
+            el.className = 'levelup-toast';
+            el.textContent = msg;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 2300);
+        }
     </script>
 </body>
 </html>
