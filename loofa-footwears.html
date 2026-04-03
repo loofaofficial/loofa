@@ -25,9 +25,22 @@
         body { font-family: 'Montserrat', sans-serif; overflow-x: hidden; max-width: 100vw; }
         html { scroll-behavior: smooth; scroll-padding-top: 110px; overflow-x: hidden; max-width: 100vw; }
 
-        /* ── DARK MODE SMOOTH ── */
-        html,body,nav,main,section,div,span,p,h1,h2,h3,a,label,input,select,button {
-            transition: background-color .45s cubic-bezier(.4,0,.2,1),
+       /* ── DARK MODE SMOOTH ── */
+html, body {
+    background-color: #ffffff; /* Default Light Mode */
+    color: #1a1a1a;
+}
+
+/* THE CHANGE: Target the .dark class specifically */
+html.dark, html.dark body {
+    background-color: #010101 !important;
+    color: #f9fafb;
+}
+
+/* Keep your existing transitions below */
+html,body,nav,main,section,div,span,p,h1,h2,h3,a,label,input,select,button {
+    transition: background-color .45s cubic-bezier(.4,0,.2,1),
+    /* ... rest of your code ... */
                         color            .45s cubic-bezier(.4,0,.2,1),
                         border-color     .45s cubic-bezier(.4,0,.2,1),
                         box-shadow       .45s cubic-bezier(.4,0,.2,1);
@@ -291,39 +304,51 @@
         #hero-banner:hover img {
             transform: scale(1.0) !important;
         }
+/* ── HERO glow overlay ── */
+#hero-banner::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: radial-gradient(ellipse at 30% 50%,
+        rgba(165,0,0,0.18) 0%,
+        transparent 70%);
+    pointer-events: none;
+}
 
-        /* ── HERO glow overlay ── */
-        #hero-banner::before {
-            content: '';
-            position: absolute; inset: 0; z-index: 1;
-            background: radial-gradient(ellipse at 30% 50%,
-                rgba(204,0,0,0.18) 0%,
-                transparent 70%);
-            pointer-events: none;
-        }
+/* ── PRODUCT CARD premium upgrades ── */
+.product-card {
+    background-color: #ffffff; /* Light Mode: Clean White */
+    border: 1px solid rgba(0,0,0,0.05);
+    transition:
+        transform     .4s  cubic-bezier(.34,1.56,.64,1),
+        box-shadow    .4s  ease,
+        border-color  .45s ease,
+        background-color .45s ease !important;
+    will-change: transform;
+}
 
-        /* ── PRODUCT CARD premium upgrades ── */
-        .product-card {
-            transition:
-                transform     .4s  cubic-bezier(.34,1.56,.64,1),
-                box-shadow    .4s  ease,
-                border-color  .45s ease,
-                background-color .45s ease !important;
-            will-change: transform;
-        }
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02) !important;
-            box-shadow:
-                0 24px 56px rgba(165,0,0,0.18),
-                0 0 0 1.5px rgba(165,0,0,0.25),
-                0 0 32px rgba(165,0,0,0.1) !important;
-        }
-        .dark .product-card:hover {
-            box-shadow:
-                0 24px 56px rgba(165,0,0,0.35),
-                0 0 0 1.5px rgba(204,0,0,0.5),
-                0 0 40px rgba(165,0,0,0.15) !important;
-        }
+/* DARK MODE CARD: The #111111 Move */
+.dark .product-card {
+    background-color: #111111 !important; /* Deep Grey - matches #010101 best */
+    border: 1px solid rgba(255,255,255,0.06) !important; /* Ghost border for depth */
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow:
+        0 24px 56px rgba(165,0,0,0.18),
+        0 0 0 1.5px rgba(165,0,0,0.25),
+        0 0 32px rgba(165,0,0,0.1) !important;
+}
+
+/* DARK MODE HOVER: High-End Red Glow */
+.dark .product-card:hover {
+    background-color: #161616 !important; /* Slightly lighter on hover */
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.6), 
+        0 0 0 1.5px rgba(165,0,0,0.4),
+        0 0 40px rgba(165,0,0,0.2) !important;
+}
+     
 
         /* ── CARD IMAGE — correct default, zoom in on hover ── */
         .card-img-wrap {
@@ -349,49 +374,7 @@
             }
         }
 
-        /* ── CARD image premium overlay glow ── */
-        .card-img-wrap::before {
-            content: '';
-            position: absolute; inset: 0; z-index: 1;
-            background: linear-gradient(
-                to bottom,
-                transparent 50%,
-                rgba(204,0,0,0.12) 100%
-            );
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-        .product-card:hover .card-img-wrap::before {
-            opacity: 1;
-        }
-
-        /* ── CARD bottom red glow line ── */
-        .product-card::after {
-            content:'';
-            position:absolute; bottom:0; left:10%; right:10%;
-            height:2px;
-            background: linear-gradient(90deg, transparent, #a50000, transparent);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            filter: blur(3px);
-            box-shadow: 0 0 8px #a50000;
-        }
-        .product-card:hover::after { opacity: 1; }
-
-        /* ── PRICE premium glow ── */
-        .price-glow {
-            text-shadow:
-                0 0 20px rgba(165,0,0,0.35),
-                0 0 40px rgba(165,0,0,0.15) !important;
-        }
-        .dark .price-glow {
-            text-shadow:
-                0 0 20px rgba(255,80,80,0.5),
-                0 0 40px rgba(255,80,80,0.2) !important;
-        }
-
+      
         /* ── NEW badge premium glow ── */
         .new-badge {
             background: linear-gradient(135deg, #111, #222) !important;
@@ -399,38 +382,315 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
             animation: newPulse 2.5s ease infinite !important;
         }
+/* ── PRODUCT CARD premium upgrades (NEON YELLOW) ── */
+.product-card {
+    transition:
+        transform     .4s  cubic-bezier(.34,1.56,.64,1),
+        box-shadow    .4s  ease,
+        border-color  .45s ease,
+        background-color .45s ease !important;
+    will-change: transform;
+}
 
-        /* ── WISH btn glow on active ── */
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.1),
+        0 0 0 1.5px rgba(240,255,0,0.3), /* Subtle yellow ring */
+        0 0 32px rgba(240,255,0,0.15) !important;
+}
+
+.dark .product-card:hover {
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.5),
+        0 0 0 1.5px rgba(240,255,0,0.5), /* Stronger yellow ring for dark mode */
+        0 0 40px rgba(240,255,0,0.2) !important
+}
+ /* ── PRODUCT CARD premium upgrades (LAMBO YELLOW) ── */
+.product-card {
+    transition:
+        transform     .4s  cubic-bezier(.34,1.56,.64,1),
+        box-shadow    .4s  ease,
+        border-color  .45s ease,
+        background-color .45s ease !important;
+    will-change: transform;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.1),
+        0 0 0 1.5px rgba(255,204,0,0.4), /* Lambo Yellow Edge */
+        0 0 32px rgba(255,204,0,0.15) !important;
+}
+
+.dark .product-card:hover {
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.6),
+        0 0 0 1.5px rgba(255,215,0,0.6), /* Gold-Yellow Ring */
+        0 0 45px rgba(255,204,0,0.25) !important;
+}
+/* ── PRODUCT CARD premium upgrades (LIQUID GOLD) ── */
+.product-card {
+    transition:
+        transform     .4s  cubic-bezier(.34,1.56,.64,1),
+        box-shadow    .4s  ease,
+        border-color  .45s ease,
+        background-color .45s ease !important;
+    will-change: transform;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow:
+        0 24px 56px rgba(0,0,0,0.1),
+        0 0 0 2px rgba(255,245,150,0.4), /* Brighter Light Yellow Edge */
+        0 0 35px rgba(255,215,0,0.2) !important;
+}
+
+/* DARK MODE HOVER: Blinding Gold Glow */
+.dark .product-card:hover {
+    box-shadow:
+        0 24px 60px rgba(0,0,0,0.8), 
+        0 0 0 2px rgba(255,255,190,0.7), /* Almost White-Yellow Edge */
+        0 0 50px rgba(255,215,0,0.3) !important;
+}
+
+
+/* Optional: If you want it pure white in dark mode for maximum legibility */
+/* .dark .price-glow { color: #FFFFFF !important; } */
+
+   /* ── WISH btn glow on active ── */
         .wish-btn.active-wish {
             box-shadow: 0 0 12px rgba(239,68,68,0.6) !important;
         }
+/* ── CARD IMAGE overlay glow (LIME BEAM) ── */
+.card-img-wrap::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        transparent 40%,
+        rgba(200, 255, 200, 0.22) 100% /* High-intensity Lime-White beam */
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.product-card:hover .card-img-wrap::before {
+    opacity: 1;
+}
 
-        /* ── ADD TO CART btn premium ── */
-        .product-card .add-btn {
-            background: linear-gradient(135deg, #111, #1a1a1a) !important;
-            border: 1px solid rgba(255,255,255,0.08) !important;
+/* ── CARD bottom pure lime glow line ── */
+.product-card::after {
+    content:'';
+    position:absolute; bottom:0; left:5%; right:5%;
+    height:2px;
+    /* Mixing Lime-White with Pure Lime for the "Hot" center effect */
+    background: linear-gradient(90deg, transparent, #CCFFCC, #00FF00, #CCFFCC, transparent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    filter: blur(4px); 
+    box-shadow: 0 0 15px #00FF00;
+}
+.product-card:hover::after { opacity: 1; }
+
+/* ── PRICE: Clean & Sharp (Pure Lime) ── */
+.price-glow {
+    text-shadow: none !important;
+    font-weight: 700;
+    color: #111111; 
+}
+
+.dark .price-glow {
+    text-shadow: none !important;
+    color: #00FF00 !important; /* Pure Lime price for dark mode */
+}
+        /* ── SELECT premium — Match the Gold Glow ── */
+./* ── SELECT premium — Match the Gold Glow ── */
+.product-card select {
+    background-color: #222222 !important; /* Slightly lighter than the card */
+    border: 1px solid rgba(0, 255, 0, 0.2) !important; /* Pure Lime edge (dim) */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: #eeeeee;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+/* HOVER/FOCUS: Blinding Gold + Lime Glow */
+.product-card select:hover, 
+.product-card select:focus {
+    border-color: #FFF596 !important; /* The "Fire" light yellow border */
+    background-color: #2a2a2a !important;
+    box-shadow: 
+        0 0 15px rgba(0, 255, 0, 0.4), /* Outer Lime glow */
+        0 0 5px rgba(255, 245, 150, 0.6) !important; /* Inner Gold shine */
+    color: #00FF00 !important; /* Text turns Lime on hover */
+    outline: none;
+    transform: translateY(-1px);
+}
+
+
+        /* ── iOS STYLE SIZE PICKER ── */
+        .size-picker-wrap {
+            position: relative;
+            margin-bottom: .5rem;
+        }
+        .size-picker-wrap select {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0; height: 0;
+        }
+        .size-trigger {
+            width: 100%;
+            padding: .55rem .75rem;
+            background: #f9fafb;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+            font-size: .78rem; font-weight: 700;
+            color: #555;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        .dark .size-trigger {
+            background: #374151;
+            border-color: #4b5563;
+            color: #d1d5db;
+        }
+        .size-trigger.selected {
+            border-color: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 0 2px rgba(0,255,0,.2);
+        }
+        .size-trigger i {
+            font-size: .65rem;
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+            color: #aaa;
+        }
+        .size-trigger.open i { transform: rotate(180deg); }
+        .size-sheet-overlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 99990;
+            background: rgba(0,0,0,0);
+            transition: background .3s ease;
+        }
+        .size-sheet-overlay.open {
+            display: block;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+        .size-sheet {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 99991;
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 0 0 2rem;
+            max-height: 60vh;
+            transform: translateY(100%);
+            transition: transform .45s cubic-bezier(.34,1.2,.64,1);
+            box-shadow: 0 -8px 40px rgba(0,0,0,.2);
+        }
+        .dark .size-sheet { background: #1f2937; }
+        .size-sheet.open { transform: translateY(0); }
+        .size-sheet-handle {
+            width: 40px; height: 4px;
+            background: #e5e7eb; border-radius: 2px;
+            margin: 14px auto 0;
+        }
+        .dark .size-sheet-handle { background: #4b5563; }
+        .size-sheet-title {
+            font-weight: 900; font-size: .95rem;
+            text-align: center; padding: 1rem 1.5rem .75rem;
+            color: #111; border-bottom: 1px solid #f0f0f0;
+        }
+        .dark .size-sheet-title { color: #f9fafb; border-color: #374151; }
+        .size-sheet-title span {
+            font-size: .75rem; font-weight: 600;
+            color: #aaa; display: block; margin-top: 2px;
+        }
+        .size-options {
+            display: flex; flex-wrap: wrap;
+            gap: .6rem; padding: 1rem 1.25rem;
+            justify-content: center;
+            overflow-y: auto; max-height: 40vh;
+        }
+        .size-option {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            border: 2px solid #e5e7eb;
+            background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-family: Montserrat, sans-serif;
+            font-weight: 800; font-size: .88rem;
+            color: #555; cursor: pointer;
             transition:
-                background 0.3s ease,
-                transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
-                box-shadow 0.3s ease !important;
+                transform .2s cubic-bezier(.34,1.56,.64,1),
+                border-color .2s ease,
+                background .2s ease,
+                color .2s ease,
+                box-shadow .2s ease;
         }
-        .dark .product-card .add-btn {
-            background: linear-gradient(135deg, #f0ece4, #e8e3db) !important;
-            color: #000 !important;
+        .dark .size-option {
+            background: #374151; border-color: #4b5563; color: #d1d5db;
         }
-        .product-card .add-btn:hover:not([disabled]) {
-            background: linear-gradient(135deg, #a50000, #cc3333) !important;
-            color: #fff !important;
-            box-shadow: 0 4px 20px rgba(165,0,0,0.35) !important;
-            transform: scale(1.02) !important;
+        .size-option:hover {
+            transform: scale(1.08);
+            border-color: rgba(0,255,0,.6);
+            color: #00cc00;
+        }
+        .size-option.active {
+            background: #00ff00;
+            border-color: #00ff00;
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(0,255,0,.5);
         }
 
-        /* ── SELECT premium ── */
-        .product-card select:focus {
-            border-color: rgba(204,0,0,0.5) !important;
-            box-shadow: 0 0 0 2px rgba(165,0,0,0.15) !important;
-        }
+/* ── ADD TO CART btn premium ── */
+.product-card .add-btn {
+    position: relative;
+    overflow: hidden;
+    background: #a50000 !important; /* Single color default for stability */
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 8px; /* Ensure this matches your card's vibe */
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
+    background-clip: padding-box; /* Prevents background from bleeding into border */
+}
 
+.dark .product-card .add-btn {
+    /* Mixing Lime (#00ff00) with a very light lime-white for a cleaner look */
+    background: linear-gradient(135deg, #ccffcc, #00ff00) !important;
+    color: #000 !important;
+    font-weight: 700;
+    border: none !important; /* Removing the border fixes the edge cutoff bug */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.product-card .add-btn:hover:not([disabled]) {
+    transform: scale(1.04) !important;
+    background: #00ff00 !important; /* Pure Lime on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5) !important;
+    color: #000 !important;
+}
+
+/* Ensure the text/icon stays centered */
+.product-card .add-btn i, 
+.product-card .add-btn span {
+    position: relative;
+    z-index: 2;
+}
+.product-card select:hover, 
+.product-card select:focus {
+    border-color: #FFD700 !important; /* High-octane yellow border */
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2) !important;
+    outline: none;
+}
         /* ── HERO button premium shine ── */
         .hero-cta button {
             position: relative;
@@ -737,86 +997,7 @@
         .card-img-wrap { cursor: zoom-in; }
 
 
-        /* ── iOS STYLE SIZE PICKER ── */
-        .size-picker-wrap {
-            position: relative;
-            margin-bottom: .5rem;
-        }
-
-        /* Hidden real select for form value */
-        .size-picker-wrap select {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            width: 0; height: 0;
-        }
-
-        /* Trigger button */
-        .size-trigger {
-            width: 100%;
-            padding: .55rem .75rem;
-            background: #f9fafb;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer;
-            font-family: Montserrat, sans-serif;
-            font-size: .78rem; font-weight: 700;
-            color: #555;
-            transition: border-color .2s ease, box-shadow .2s ease;
-        }
-        .dark .size-trigger {
-            background: #374151;
-            border-color: #4b5563;
-            color: #d1d5db;
-        }
-        .size-trigger.selected {
-            border-color: #a50000;
-            color: #a50000;
-            box-shadow: 0 0 0 2px rgba(204,0,0,.12);
-        }
-        .size-trigger i {
-            font-size: .65rem;
-            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-            color: #aaa;
-        }
-        .size-trigger.open i { transform: rotate(180deg); }
-
-        /* Sheet overlay */
-        .size-sheet-overlay {
-            display: none;
-            position: fixed; inset: 0; z-index: 99990;
-            background: rgba(0,0,0,0);
-            transition: background .3s ease;
-        }
-        .size-sheet-overlay.open {
-            display: block;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-        }
-
-        /* Bottom sheet */
-        .size-sheet {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            z-index: 99991;
-            background: #fff;
-            border-radius: 24px 24px 0 0;
-            padding: 0 0 2rem;
-            max-height: 60vh;
-            transform: translateY(100%);
-            transition: transform .45s cubic-bezier(.34,1.2,.64,1);
-            box-shadow: 0 -8px 40px rgba(0,0,0,.2);
-        }
-        .dark .size-sheet {
-            background: #1f2937;
-        }
-        .size-sheet.open {
-            transform: translateY(0);
-        }
-
-        /* Sheet handle */
-        .size-sheet-handle {
+     c
             width: 40px; height: 4px;
             background: #e5e7eb; border-radius: 2px;
             margin: 14px auto 0;
@@ -834,46 +1015,6 @@
             font-size: .75rem; font-weight: 600;
             color: #aaa; display: block; margin-top: 2px;
         }
-
-        /* Size options — iOS wheel style */
-        .size-options {
-            display: flex; flex-wrap: wrap;
-            gap: .6rem; padding: 1rem 1.25rem;
-            justify-content: center;
-            overflow-y: auto; max-height: 40vh;
-        }
-        .size-option {
-            width: 52px; height: 52px;
-            border-radius: 14px;
-            border: 2px solid #e5e7eb;
-            background: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-family: Montserrat, sans-serif;
-            font-weight: 800; font-size: .88rem;
-            color: #555; cursor: pointer;
-            transition:
-                transform .2s cubic-bezier(.34,1.56,.64,1),
-                border-color .2s ease,
-                background .2s ease,
-                color .2s ease,
-                box-shadow .2s ease;
-        }
-        .dark .size-option {
-            background: #374151; border-color: #4b5563; color: #d1d5db;
-        }
-        .size-option:hover {
-            transform: scale(1.08);
-            border-color: rgba(74,27,154,.5);
-            color: #a50000;
-        }
-        .size-option.active {
-            background: #a50000;
-            border-color: #a50000;
-            color: #fff;
-            transform: scale(1.1);
-            box-shadow: 0 4px 16px rgba(74,27,154,.5);
-        }
-
 
         /* ══════════════════════════════════════════
            PREMIUM ANIMATIONS — SCROLL, SEARCH,
@@ -959,7 +1100,7 @@
 
         /* ── ADD TO CART — bounce on click ── */
         .add-btn:active {
-            transform: scale(0.93) !important;
+            transform: scale(0.97) !important;
         }
 
         /* ── CART SECTION — container slide in ── */
@@ -1341,7 +1482,6 @@
         ══════════════════════════════════════════ */
 
         /* ── COMBO BURST — XP-style floating +1 text on add to cart ── */
-        
         }
 
 
