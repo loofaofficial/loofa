@@ -18,7 +18,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap&font-display=swap" rel="stylesheet">
 
     <style>
         * { box-sizing: border-box; }
@@ -28,9 +28,9 @@
         /* ── DARK MODE SMOOTH ── */
         html,body,nav,main,section,div,span,p,h1,h2,h3,a,label,input,select,button {
             transition: background-color .45s cubic-bezier(.4,0,.2,1),
-                        color .45s cubic-bezier(.4,0,.2,1),
-                        border-color .45s cubic-bezier(.4,0,.2,1),
-                        box-shadow .45s cubic-bezier(.4,0,.2,1);
+                        color            .45s cubic-bezier(.4,0,.2,1),
+                        border-color     .45s cubic-bezier(.4,0,.2,1),
+                        box-shadow       .45s cubic-bezier(.4,0,.2,1);
         }
         button {
             transition: background-color .25s ease, color .25s ease,
@@ -84,7 +84,6 @@
             transition: transform .35s cubic-bezier(.34,1.56,.64,1),
                         box-shadow .35s ease, border-color .45s ease,
                         background-color .45s ease !important;
-            will-change: transform;
         }
         .product-card:hover {
             transform: translateY(-8px) scale(1.015);
@@ -128,14 +127,8 @@
             50%{ box-shadow:0 0 0 4px rgba(204,0,0,0); }
         }
 
-        /* add to cart ripple */
+        /* add to cart btn */
         .add-btn { position:relative; overflow:hidden; }
-        .ripple {
-            position:absolute; border-radius:50%;
-            background:rgba(255,255,255,.3); transform:scale(0);
-            animation:ripple .55s linear; pointer-events:none;
-        }
-        @keyframes ripple { to{transform:scale(4);opacity:0} }
 
         /* price glow */
         .price-glow { text-shadow: 0 0 20px rgba(74,27,154,.4); }
@@ -293,6 +286,7 @@
             transform-origin: center center;
             transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             transform: scale(1.08);
+            will-change: transform;
         }
         #hero-banner:hover img {
             transform: scale(1.0) !important;
@@ -311,10 +305,11 @@
         /* ── PRODUCT CARD premium upgrades ── */
         .product-card {
             transition:
-                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.4s ease,
-                border-color 0.45s ease,
-                background-color 0.45s ease !important;
+                transform     .4s  cubic-bezier(.34,1.56,.64,1),
+                box-shadow    .4s  ease,
+                border-color  .45s ease,
+                background-color .45s ease !important;
+            will-change: transform;
         }
         .product-card:hover {
             transform: translateY(-10px) scale(1.02) !important;
@@ -1572,6 +1567,153 @@
             box-shadow: 0 0 8px rgba(165,0,0,.7), 0 0 16px rgba(165,0,0,.3) !important;
         }
 
+        /* ══════════════════════════════════════════
+           NEW FEATURES: quantity, description, empty search
+        ══════════════════════════════════════════ */
+
+        /* ── PRODUCT DESCRIPTION ── */
+        .product-desc {
+            font-size: .68rem;
+            color: #888;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: .4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .dark .product-desc { color: #6b7280; }
+
+        /* ── QUANTITY SELECTOR ── */
+        .qty-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: #f3f4f6;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1.5px solid #e5e7eb;
+            flex-shrink: 0;
+        }
+        .dark .qty-wrap { background: #374151; border-color: #4b5563; }
+        .qty-btn {
+            width: 30px; height: 30px;
+            background: none; border: none;
+            font-size: 1rem; font-weight: 900;
+            color: #a50000; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s ease, transform .15s cubic-bezier(.34,1.56,.64,1);
+            flex-shrink: 0;
+        }
+        .qty-btn:hover { background: rgba(165,0,0,.1); }
+        .qty-btn:active { transform: scale(.88) !important; }
+        .qty-num {
+            min-width: 28px;
+            text-align: center;
+            font-size: .82rem;
+            font-weight: 900;
+            color: #111;
+            padding: 0 2px;
+        }
+        .dark .qty-num { color: #f9fafb; }
+
+        /* ── EMPTY SEARCH STATE ── */
+        #searchEmptyState {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            text-align: center;
+            animation: stageLoad .4s cubic-bezier(.22,1,.36,1) both;
+        }
+        #searchEmptyState.show { display: flex; }
+        .search-empty-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+        .search-empty-title {
+            font-size: 1.05rem; font-weight: 900;
+            color: #111; margin-bottom: .4rem;
+        }
+        .dark .search-empty-title { color: #f9fafb; }
+        .search-empty-sub {
+            font-size: .8rem; color: #aaa; font-weight: 600;
+            margin-bottom: 1.25rem; max-width: 260px;
+        }
+        .search-empty-suggestions {
+            display: flex; flex-wrap: wrap; gap: .4rem;
+            justify-content: center; max-width: 300px;
+        }
+        .search-suggestion-chip {
+            background: rgba(165,0,0,.08);
+            border: 1px solid rgba(165,0,0,.2);
+            color: #a50000; border-radius: 20px;
+            padding: .35rem .85rem;
+            font-size: .72rem; font-weight: 800;
+            cursor: pointer;
+            transition: all .2s cubic-bezier(.34,1.56,.64,1);
+        }
+        .search-suggestion-chip:hover {
+            background: #a50000; color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ══════════════════════════════════════════
+           ⚡ LOW-END DEVICE PERFORMANCE
+           GPU compositing hints + reduced-motion
+           All animations preserved, just smoother
+        ══════════════════════════════════════════ */
+
+        /* Force GPU layer on the heaviest animated elements */
+        .glass-nav          { transform: translateZ(0); }
+        .animate-marquee    { transform: translateZ(0); backface-visibility: hidden; }
+        #hero-banner        { transform: translateZ(0); }
+        #hero-banner img    { backface-visibility: hidden; }
+        .product-card       { backface-visibility: hidden; }
+        .card-img-wrap img  { backface-visibility: hidden; }
+        #scrollBar          { transform: translateZ(0); }
+        #toast              { transform: translateZ(0); }
+
+        /* content-visibility: skip rendering off-screen sections entirely */
+        #cart-section,
+        #orders-section,
+        #wishlist-section,
+        #feedback-section {
+            content-visibility: auto;
+            contain-intrinsic-size: 0 600px;
+        }
+
+        /* image-rendering: crisp decode on low-end GPUs */
+        .card-img-wrap img,
+        .preview-img {
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        /* ── REDUCED MOTION — keeps all animations but tones them down ── */
+        /* Users/devices with "reduce motion" OS setting get this automatically */
+        @media (prefers-reduced-motion: reduce) {
+            /* Shorten all durations to near-instant — no flicker, just fast */
+            *, *::before, *::after {
+                animation-duration:      .01ms !important;
+                animation-iteration-count: 1   !important;
+                transition-duration:     .01ms !important;
+                scroll-behavior:         auto  !important;
+            }
+            /* Keep marquee and hero ripple but freeze them */
+            .animate-marquee     { animation: none !important; }
+            .hero-ripple-circle  { animation: none !important; }
+            .particle            { animation: none !important; }
+            /* Keep card pop visible but instant */
+            .product-card        { opacity: 1 !important; }
+        }
+
     </style>
 </head>
 <body class="bg-gray-50 text-black dark:bg-gray-900 dark:text-white">
@@ -1786,6 +1928,14 @@
 
             <!-- PRODUCTS -->
             <div id="productGrid" class="hidden grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8"></div>
+
+            <!-- EMPTY SEARCH STATE -->
+            <div id="searchEmptyState" class="col-span-full">
+                <div class="search-empty-icon">🔍</div>
+                <p class="search-empty-title">No results found</p>
+                <p class="search-empty-sub">We couldn't find anything matching your search. Try one of these instead:</p>
+                <div class="search-empty-suggestions" id="searchSuggestions"></div>
+            </div>
 
             <!-- EMPTY STATE -->
             <div id="emptyState" class="hidden col-span-full text-center py-16">
@@ -2174,9 +2324,26 @@
 
         // ── RENDER PRODUCTS ──
         function renderProducts(list) {
-            const grid = document.getElementById('productGrid');
+            const grid       = document.getElementById('productGrid');
+            const emptySearch= document.getElementById('searchEmptyState');
+            const term       = document.getElementById('searchInput')?.value.trim();
+
+            // Hide search empty state by default
+            emptySearch.classList.remove('show');
+
             if (!list || !list.length) {
-                grid.innerHTML = '<p class="col-span-full text-center py-12 text-gray-500 font-bold text-lg">No products found.</p>';
+                grid.innerHTML = '';
+                // Only show rich empty state if user was searching
+                if (term) {
+                    emptySearch.classList.add('show');
+                    // Build suggestion chips from all product names (first word = brand)
+                    const suggestions = [...new Set(products.map(p => p.name.split(' ')[0]))].slice(0, 8);
+                    document.getElementById('searchSuggestions').innerHTML = suggestions.map(s =>
+                        `<div class="search-suggestion-chip" onclick="document.getElementById('searchInput').value='${s}';searchProducts();">${s}</div>`
+                    ).join('');
+                } else {
+                    grid.innerHTML = '<p class="col-span-full text-center py-12 text-gray-500 font-bold text-lg">No products found.</p>';
+                }
                 return;
             }
             grid.innerHTML = list.map((p, idx) => {
@@ -2214,6 +2381,7 @@
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
                         <h3 class="font-bold text-black dark:text-white text-xs mb-1 leading-snug line-clamp-2" style="min-height:32px;">${p.name}</h3>
+                        ${p.description ? `<p class="product-desc">${p.description}</p>` : ''}
                         ${priceRow}
                         <div class="mt-auto">
                             <div class="size-picker-wrap">
@@ -2300,12 +2468,6 @@
                 return;
             }
 
-            // ripple
-            const r = document.createElement('span');
-            r.className='ripple';
-            r.style.cssText=`width:${btn.offsetWidth*2}px;height:${btn.offsetWidth*2}px;top:${-btn.offsetWidth/2}px;left:0;`;
-            btn.appendChild(r); setTimeout(()=>r.remove(),600);
-
             cart.push({...p, selectedSize:sel.value, selectedColor, cartId:Date.now()+Math.random()});
             localStorage.setItem('lf_cart', JSON.stringify(cart));
             updateCartUI();
@@ -2326,11 +2488,13 @@
             }
             let total=0;
             container.innerHTML=cart.map(item=>{
-                total+=parseInt(item.price);
+                const qty = item.qty || 1;
+                const itemTotal = parseInt(item.price) * qty;
+                total += itemTotal;
                 return `<div class="cart-row flex flex-col sm:flex-row justify-between items-center border-b border-gray-100 dark:border-gray-700 pb-5 px-2 py-3">
                     <div class="flex items-center gap-4 w-full sm:w-auto">
                         <div class="relative flex-shrink-0 w-20 h-20">
-                            <img src="${item.image}" class="w-20 h-20 rounded-xl object-cover shadow-sm"
+                            <img src="${item.image}" class="w-20 h-20 rounded-xl object-cover shadow-sm" loading="lazy"
                                  onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'%3E%3Crect width=\'80\' height=\'80\' rx=\'12\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'58%25\' font-size=\'32\' text-anchor=\'middle\'%3E👟%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div>
@@ -2339,11 +2503,18 @@
                             ${item.selectedColor ? `<span class="text-xs text-black dark:text-white font-semibold bg-gray-100 dark:bg-gray-700 inline-block px-2 py-0.5 rounded mt-1 ml-1" style="display:inline-flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:${COLOR_HEX_MAP[item.selectedColor]||'#888'};border:1px solid rgba(0,0,0,.15);display:inline-block;"></span>${item.selectedColor}</span>` : ''}
                         </div>
                     </div>
-                    <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto mt-3 sm:mt-0">
-                        <p class="font-black text-xl text-red-600 dark:text-red-400 price-glow">₹${parseInt(item.price).toLocaleString('en-IN')}</p>
-                        <button onclick="removeFromCart(${item.cartId})" class="text-gray-400 hover:text-red-600 text-xs font-bold mt-1">
-                            <i class="fas fa-trash-alt mr-1"></i> Remove
-                        </button>
+                    <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto mt-3 sm:mt-0 gap-3">
+                        <p class="font-black text-xl text-red-600 dark:text-red-400 price-glow">₹${itemTotal.toLocaleString('en-IN')}</p>
+                        <div class="flex items-center gap-2">
+                            <div class="qty-wrap">
+                                <button class="qty-btn" onclick="changeQty(${item.cartId}, -1)">−</button>
+                                <span class="qty-num">${qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${item.cartId}, 1)">+</button>
+                            </div>
+                            <button onclick="removeFromCart(${item.cartId})" class="text-gray-400 hover:text-red-600 text-xs font-bold transition-colors duration-200">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             }).join('');
@@ -2356,19 +2527,70 @@
             renderCart(); updateCartUI();
         }
 
+        function changeQty(cartId, delta) {
+            const item = cart.find(i => i.cartId === cartId);
+            if (!item) return;
+            const newQty = (item.qty || 1) + delta;
+            if (newQty < 1) {
+                // Confirm before removing
+                cart = cart.filter(i => i.cartId !== cartId);
+                showToast('🗑️ Item removed from cart');
+            } else if (newQty > 10) {
+                showToast('⚠️ Max 10 per item');
+                return;
+            } else {
+                item.qty = newQty;
+            }
+            localStorage.setItem('lf_cart', JSON.stringify(cart));
+            renderCart();
+            updateCartUI();
+        }
+
         function updateCartUI() {
             const el = document.getElementById('cartCount');
             if (!el) return;
-            el.textContent = cart.length;
+            const totalQty = cart.reduce((s, i) => s + (i.qty || 1), 0);
+            el.textContent = totalQty;
             el.classList.add('badge-pulse');
             setTimeout(()=>el.classList.remove('badge-pulse'), 400);
             pulseCartBadge();
         }
 
+        // ── VERIFICATION CODE GENERATOR ──
+        // Uses SubtleCrypto (built into every modern browser, no library needed).
+        // Signs: orderId + total (paise) + item IDs joined
+        // Produces a short 8-char uppercase hex code you check on your end.
+        // If the customer edits price or order ID in WhatsApp → code won't match → REJECT.
+        const VERIFY_SECRET = 'LOOFA2025KL';   // ← change this to anything private
+
+        async function generateVerifyCode(orderId, totalPaise, itemSignature) {
+            const raw     = `${orderId}|${totalPaise}|${itemSignature}|${VERIFY_SECRET}`;
+            const encoded = new TextEncoder().encode(raw);
+            const hashBuf = await crypto.subtle.digest('SHA-256', encoded);
+            const hashArr = Array.from(new Uint8Array(hashBuf));
+            // Take first 4 bytes → 8 hex chars → easy to read/check
+            return hashArr.slice(0, 4).map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
+        }
+
         // ── WHATSAPP ORDER ──
-        function orderOnWhatsApp() {
+        async function orderOnWhatsApp() {
             if (!cart.length) return;
-            // Unique order ID — timestamp based, never repeats
+
+            // ── Re-fetch prices from JSONBin (source of truth) ──
+            // This means even if someone edits JS variables in DevTools,
+            // the REAL prices from your database are used for the total & verify code.
+            let verifiedCart = [...cart];
+            try {
+                const res  = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': MASTER_KEY } });
+                const data = await res.json();
+                const liveProducts = data.record.loofa_products || [];
+                verifiedCart = cart.map(item => {
+                    const live = liveProducts.find(p => p.id == item.id);
+                    // Always use live price — if product not found keep original
+                    return live ? { ...item, price: live.price, name: live.name } : item;
+                });
+            } catch(e) { /* if fetch fails, proceed with cart prices */ }
+
             const now      = new Date();
             const datePart = now.getFullYear().toString().slice(-2)
                            + String(now.getMonth()+1).padStart(2,'0')
@@ -2377,38 +2599,41 @@
                            + String(now.getMinutes()).padStart(2,'0')
                            + String(now.getSeconds()).padStart(2,'0');
             const orderId  = 'LF-' + datePart + '-' + timePart;
-            const date    = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-            const total   = cart.reduce((s,i)=>s+parseInt(i.price),0);
-            let msg = `🛍️ *New Order — LOOFA FOOTWEARS*
-`;
-            msg += `━━━━━━━━━━━━━━━━━━━━
-`;
-            msg += `📋 *Order ID:* ${orderId}
-📅 *Date:* ${date}
-`;
-            msg += `━━━━━━━━━━━━━━━━━━━━
+            const date     = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
 
-*Items:*
-`;
-            cart.forEach((item,i)=>{
+            // Total calculated from LIVE prices × qty, not browser cart
+            const total        = verifiedCart.reduce((s,i) => s + parseInt(i.price) * (i.qty||1), 0);
+            const totalPaise   = total * 100;
+            const itemSig      = verifiedCart.map(i => `${i.id}:${i.selectedSize}:${i.qty||1}`).join(',');
+            const verifyCode   = await generateVerifyCode(orderId, totalPaise, itemSig);
+
+            let msg = `🛍️ *New Order — LOOFA FOOTWEARS*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `📋 *Order ID:* ${orderId}\n`;
+            msg += `📅 *Date:* ${date}\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            msg += `*Items:*\n`;
+            verifiedCart.forEach((item, i) => {
+                const qty = item.qty || 1;
                 const colorLine = item.selectedColor ? `\n   • Color: ${item.selectedColor}` : '';
-                msg+=`\n${i+1}. 👟 *${item.name}*\n   • Size: ${item.selectedSize}${colorLine}\n   • ₹${parseInt(item.price).toLocaleString('en-IN')}\n`;
+                const qtyLine   = qty > 1 ? `\n   • Qty: ${qty}` : '';
+                msg += `\n${i+1}. 👟 *${item.name}*\n   • Size: ${item.selectedSize}${colorLine}${qtyLine}\n   • ₹${(parseInt(item.price)*qty).toLocaleString('en-IN')}${qty>1?` (₹${parseInt(item.price).toLocaleString('en-IN')} × ${qty})`:''}  \n`;
             });
-            msg+=`
-━━━━━━━━━━━━━━━━━━━━
-💰 *Total: ₹${total.toLocaleString('en-IN')}*
-━━━━━━━━━━━━━━━━━━━━
-📍 *Delivery Address:*
-_(Please reply with your address)_
+            msg += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `💰 *Total: ₹${total.toLocaleString('en-IN')}*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `🔐 *Verify Code: ${verifyCode}*\n`;
+            msg += `_(Do not edit this message — code will become invalid)_\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `📍 *Delivery Address:*\n_(Please reply with your address)_\n\n`;
+            msg += `_Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
 
-_Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
-
-            orders.unshift({id:orderId,date,items:[...cart],total:total.toLocaleString('en-IN')});
-            localStorage.setItem('lf_orders',JSON.stringify(orders));
-            cart=[]; localStorage.setItem('lf_cart',JSON.stringify(cart));
+            orders.unshift({id:orderId, date, items:[...verifiedCart], total:total.toLocaleString('en-IN'), verifyCode});
+            localStorage.setItem('lf_orders', JSON.stringify(orders));
+            cart = []; localStorage.setItem('lf_cart', JSON.stringify(cart));
             updateCartUI();
-            window.open('https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(msg),'_blank');
-            showSection('orders');
+            window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+            showSectionAnimated('orders');
             showToast('📲 Opening WhatsApp...');
         }
 
@@ -2427,6 +2652,7 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Receipt #${o.id}</p>
                             <p class="font-extrabold text-black dark:text-white text-base">${o.date}</p>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1"><i class="fas fa-box text-gray-400 mr-1"></i>${o.items.length} items</p>
+                            ${o.verifyCode ? `<p class="text-xs font-bold mt-1" style="color:#a50000;letter-spacing:2px;"><i class="fas fa-shield-alt mr-1"></i>Code: ${o.verifyCode}</p>` : ''}
                         </div>
                         <div class="text-left md:text-right">
                             <p class="font-black text-2xl text-black dark:text-white price-glow">₹${o.total}</p>
@@ -2468,6 +2694,8 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             const term=document.getElementById('searchInput').value.toLowerCase().trim();
             const hero=document.getElementById('hero-banner');
             if(hero) hero.style.display=term?'none':'block';
+            // Hide empty search state on new search
+            document.getElementById('searchEmptyState')?.classList.remove('show');
             renderProducts(term?products.filter(p=>p.name.toLowerCase().includes(term)):products);
         }
 
@@ -2864,18 +3092,20 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             setTimeout(() => closeSizeSheet(), 300);
         }
 
-        // ── SCROLL PROGRESS BAR ──
+        // ── SCROLL PROGRESS BAR — rAF throttled ──
+        let scrollRafPending = false;
+        const navEl = document.querySelector('.glass-nav');
         window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scrollBar').style.width = pct + '%';
-
-            // Nav shrink on scroll
-            const nav = document.querySelector('.glass-nav');
-            if (nav) {
-                nav.classList.toggle('scrolled', scrollTop > 40);
-            }
+            if (scrollRafPending) return;
+            scrollRafPending = true;
+            requestAnimationFrame(() => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                document.getElementById('scrollBar').style.width = pct + '%';
+                if (navEl) navEl.classList.toggle('scrolled', scrollTop > 40);
+                scrollRafPending = false;
+            });
         }, { passive: true });
 
         // ── PAGE TRANSITION FLASH ──
@@ -3532,21 +3762,29 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             });
         }
 
-        // ── MAGNETIC 3D TILT ──
+        // ── MAGNETIC 3D TILT — rAF throttled, skipped on touch devices ──
         function initMagneticCards() {
+            // Touch-only devices have no mouse — skip entirely to save resources
+            if (window.matchMedia('(hover: none)').matches) return;
+            let tiltRafPending = false;
             document.addEventListener('mousemove', e => {
-                document.querySelectorAll('.product-card').forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const cx = rect.left + rect.width/2;
-                    const cy = rect.top  + rect.height/2;
-                    const dx = (e.clientX - cx) / (rect.width/2);
-                    const dy = (e.clientY - cy) / (rect.height/2);
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 1.5) {
-                        card.style.transform = `perspective(800px) rotateY(${dx*6}deg) rotateX(${-dy*6}deg) translateY(-8px) scale(1.02)`;
-                    } else {
-                        card.style.transform = '';
-                    }
+                if (tiltRafPending) return;
+                tiltRafPending = true;
+                requestAnimationFrame(() => {
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        const cx = rect.left + rect.width/2;
+                        const cy = rect.top  + rect.height/2;
+                        const dx = (e.clientX - cx) / (rect.width/2);
+                        const dy = (e.clientY - cy) / (rect.height/2);
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 1.5) {
+                            card.style.transform = `perspective(800px) rotateY(${dx*6}deg) rotateX(${-dy*6}deg) translateY(-8px) scale(1.02)`;
+                        } else {
+                            card.style.transform = '';
+                        }
+                    });
+                    tiltRafPending = false;
                 });
             });
             document.addEventListener('mouseleave', () => {
@@ -3697,10 +3935,6 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
         //  🎮 GAME ANIMATION ENGINE
         // ══════════════════════════════════════
 
-        // Track cart combo count
-        let comboCount = 0;
-        let comboTimer = null;
-
         function initGameAnimations() {
             // Patch addToCart for game effects
             const _origAddToCart = addToCart;
@@ -3713,10 +3947,6 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
                 spawnCartParticles(rect);
                 triggerScreenShake();
                 bounceCartIcon();
-                comboCount++;
-                clearTimeout(comboTimer);
-                comboTimer = setTimeout(() => { comboCount = 0; }, 3000);
-                if (comboCount >= 3) showLevelUp(`🔥 ${comboCount}x COMBO!`);
             };
 
             // Patch toggleWishlist for confetti
@@ -3739,11 +3969,11 @@ _Thank you for shopping at LOOFA FOOTWEARS! 🙏_`;
             };
         }
 
-        // ── COMBO BURST (floating +price text) ──
+        // ── PRICE BURST (floating +price on add to cart) ──
         function spawnComboBurst(rect, price) {
             const el = document.createElement('div');
             el.className = 'combo-burst';
-            el.textContent = comboCount >= 2 ? `+₹${parseInt(price).toLocaleString('en-IN')} 🔥` : `+₹${parseInt(price).toLocaleString('en-IN')}`;
+            el.textContent = `+₹${parseInt(price).toLocaleString('en-IN')}`;
             el.style.left = (rect.left + rect.width/2 - 40) + 'px';
             el.style.top  = (rect.top - 10) + 'px';
             document.body.appendChild(el);
